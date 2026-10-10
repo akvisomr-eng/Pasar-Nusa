@@ -60,5 +60,20 @@ where id = 'VERIFIED_AUTH_USER_UUID';
 
 Do not expose the SQL editor, database credentials, or service-role keys to end users. Admin roles are never accepted from signup metadata.
 
-## Deployment status
-The GitHub repository is private. The database foundation is applied and verified, and the CI production build has passed on commit `30958c5`. Public hosting is not yet confirmed: Render could not fetch this private repository because its GitHub connection does not currently have access. Grant the Render GitHub App access to `akvisomr-eng/Pasar-Nusa` (or connect the repository through the hosting provider) before attempting a public deployment. Set the two public Supabase environment variables in the hosting dashboard, run production smoke tests, and verify the deployed URL before calling the marketplace live.
+## Deployment architecture and status
+
+- The repository remains private and GitHub Actions validates type checking, lint, and the production build.
+- Supabase project `nkigwyxbcshavhjmbuey` provides PostgreSQL, Auth, RLS, and transactional RPCs.
+- Render is intentionally not part of the deployment path.
+- The current frontend uses Next.js App Router and includes a dynamic order-detail route. GitHub Pages is static hosting and, for a private repository, may require a paid GitHub plan; it must not be treated as a guaranteed free deployment target.
+- Supabase provides backend services and Edge Functions, but it is not a drop-in Node.js/Next.js web host. Deploying this existing application publicly therefore requires either (a) a compatible frontend host, or (b) a deliberate frontend rewrite/export with routing and all user journeys retested. Do not enable static export without resolving the dynamic order route and confirming the build.
+- Do not publish the private repository, create a public mirror, or expose service-role keys to bypass hosting limitations.
+- Real payments, wallet/escrow, autonomous AI actions, and broad courier integrations remain disabled.
+
+### Safe deployment checklist
+
+1. Confirm the chosen host supports the actual Next.js runtime and the account's current free-plan limits.
+2. Configure only `NEXT_PUBLIC_SUPABASE_URL` and the public anon/publishable key as frontend environment variables.
+3. Confirm Supabase Auth Site URL and redirect URLs match the final HTTPS domain.
+4. Run typecheck, lint, production build, and deployment smoke tests.
+5. Verify signup/signin, product listing, seller onboarding, admin moderation, atomic checkout, order access controls, and cancellation before calling the site live.
