@@ -45,7 +45,7 @@ export default function CartPage() {
       });
       if (error) throw error;
       localStorage.removeItem(CART_KEY);
-      router.push("/pesanan/" + encodeURIComponent(String(data)));
+      router.push("/pesanan?id=" + encodeURIComponent(String(data)));
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Pesanan belum dapat dibuat. Periksa stok dan coba lagi.");
     } finally { setBusy(false); }
