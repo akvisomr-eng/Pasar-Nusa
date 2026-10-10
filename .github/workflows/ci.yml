@@ -21,6 +21,8 @@ jobs:
           node-version: 20
       - name: Install dependencies
         run: npm install
+      - name: Dependency audit (report only)
+        run: npm audit --json || true
       - name: Type check
         run: npm run typecheck
       - name: Lint
