@@ -19,8 +19,8 @@ export default function HomePage() {
     <main>
       <header className="topbar">
         <Link className="brand" href="/" aria-label="Pasar-Nusa beranda"><span className="brand-mark">P</span><span>pasar<span className="brand-accent">nusa</span><small>Pasar lokal, peluang nasional</small></span></Link>
-        <nav aria-label="Navigasi utama"><a href="#kategori">Kategori</a><a href="#cara-kerja">Cara kerja</a><a href="#penjual">Untuk penjual</a></nav>
-        <a className="button button-outline" href="#mulai">Masuk / Daftar</a>
+        <nav aria-label="Navigasi utama"><a href="#kategori">Kategori</a><Link href="/katalog">Katalog</Link><a href="#cara-kerja">Cara kerja</a><a href="#penjual">Untuk penjual</a></nav>
+        <Link className="button button-outline" href="/masuk">Masuk / Daftar</Link>
       </header>
       <section className="hero">
         <div className="hero-copy">
@@ -44,7 +44,7 @@ export default function HomePage() {
       </section>
       <section className="seller-section" id="penjual"><div><span className="eyebrow">UNTUK PEDAGANG & UMKM</span><h2>Usaha Anda layak<br/>punya panggung lebih besar.</h2><p>Kelola katalog dan stok, terima pesanan dengan alur yang jelas, dan siapkan bisnis untuk tumbuh ke grosir serta B2B.</p><a className="button button-light" href="#mulai">Kenali Pasar-Nusa <span>→</span></a></div><div className="seller-graphic"><div className="graphic-card"><span>RINGKASAN USAHA</span><div className="graphic-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><strong>Kelola. Layani. Bertumbuh.</strong><small>Operasional dagang dalam satu alur.</small></div><div className="floating-leaf">🌱</div></div></section>
       <section className="section principles" id="cara-kerja"><div className="section-heading"><div><span className="eyebrow">DIBANGUN DENGAN KEPERCAYAAN</span><h2>Dagangan jelas, transaksi tertata.</h2></div><p>Kepercayaan bukan fitur tambahan. Ia adalah fondasi.</p></div><ul>{principles.map((item) => <li key={item}><span>✓</span>{item}</li>)}</ul></section>
-      <section className="cta" id="mulai"><span className="eyebrow">PASAR-NUSA</span><h2>Ruang tumbuh bagi semua pelaku usaha.</h2><p>Fondasi marketplace sedang disiapkan. Pendaftaran dan transaksi akan dibuka setelah keamanan dan operasional siap.</p><span className="button button-disabled" aria-disabled="true">Pendaftaran segera dibuka</span></section>
+      <section className="cta" id="mulai"><span className="eyebrow">PASAR-NUSA</span><h2>Ruang tumbuh bagi semua pelaku usaha.</h2><p>Fondasi marketplace sedang disiapkan. Pendaftaran dan transaksi akan dibuka setelah keamanan dan operasional siap.</p><div className="cta-actions"><Link className="button button-dark" href="/katalog">Jelajahi katalog <span>→</span></Link><Link className="button button-cta-outline" href="/masuk">Masuk / daftar akun</Link></div></section>
       <footer><Link className="brand brand-footer" href="/"><span className="brand-mark">P</span><span>pasar<span className="brand-accent">nusa</span><small>Pedagang Ecer, Pelayanan Sultan.</small></span></Link><span>© {new Date().getFullYear()} Pasar-Nusa</span><span>Dirancang untuk tumbuh bersama pedagang Indonesia.</span></footer>
     </main>
   );
