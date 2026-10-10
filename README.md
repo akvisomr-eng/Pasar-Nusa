@@ -24,7 +24,7 @@ Pasar-Nusa is a multi-commodity marketplace foundation designed to grow into sel
 - A seller's store and products remain hidden until approved by an administrator.
 
 ## Stack
-- Next.js App Router + TypeScript
+- Next.js App Router + TypeScript (current maintained major version)
 - Supabase PostgreSQL + Auth
 - GitHub Actions CI
 
@@ -44,6 +44,7 @@ Migrations are stored in `supabase/migrations` and were applied to project `nkig
 - `0005_function_execute_privileges`
 - `0006_least_privilege_table_grants`
 - `0007_checkout_validation_hardening`
+- `0008_avoid_recursive_order_rls`
 
 After the first trusted owner account has signed up and its email has been verified, a project owner must promote that specific account to `platform_admin` in the Supabase SQL editor. Verify the email and UUID before running anything like:
 
