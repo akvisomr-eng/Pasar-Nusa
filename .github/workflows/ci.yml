@@ -35,3 +35,12 @@ jobs:
         run: npm run build
       - name: Static export compatibility check
         run: npm run build:static
+      - name: Verify exported routes and assets
+        run: node scripts/verify-static-export.mjs
+      - name: Upload static build artifact for inspection
+        uses: actions/upload-artifact@v4
+        with:
+          name: pasar-nusa-static-preview
+          path: out/
+          if-no-files-found: error
+          retention-days: 7
