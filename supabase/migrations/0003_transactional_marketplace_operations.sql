@@ -131,8 +131,9 @@ begin
     if v_on_hand - v_reserved < v_quantity then
       raise exception 'insufficient stock for product %', v_product_id using errcode = 'P0001';
     end if;
-    if v_price < 0 or (v_price::numeric * v_quantity::numeric) > 9000000000000000000::numeric then
-      raise exception 'invalid price or quantity total' using errcode = '22003';
+    if v_price < 0 or (v_price::numeric * v_quantity::numeric) > 9000000000000000000::numeric
+       or (v_subtotal::numeric + v_price::numeric * v_quantity::numeric) > 9000000000000000000::numeric then
+      raise exception 'invalid price or order total' using errcode = '22003';
     end if;
     v_subtotal := v_subtotal + (v_price * v_quantity);
   end loop;
@@ -263,7 +264,8 @@ begin
   update public.order_items set status = 'fulfilled' where id = p_item_id;
   update public.orders o
      set status = case
-       when exists (select 1 from public.order_items x where x.order_id = v_order_id and x.status in ('pending_seller','accepted')) then 'accepted'::public.order_status
+       when exists (select 1 from public.order_items x where x.order_id = v_order_id and x.status = 'pending_seller') then 'pending_seller'::public.order_status
+       when exists (select 1 from public.order_items x where x.order_id = v_order_id and x.status = 'accepted') then 'accepted'::public.order_status
        when exists (select 1 from public.order_items x where x.order_id = v_order_id and x.status = 'fulfilled') then 'fulfilled'::public.order_status
        else 'rejected'::public.order_status
      end,
