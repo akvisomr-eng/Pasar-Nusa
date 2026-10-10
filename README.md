@@ -60,20 +60,27 @@ where id = 'VERIFIED_AUTH_USER_UUID';
 
 Do not expose the SQL editor, database credentials, or service-role keys to end users. Admin roles are never accepted from signup metadata.
 
-## Deployment architecture and status
+## Deployment architecture and status — Rp0 first
 
-- The repository remains private and GitHub Actions validates type checking, lint, and the production build.
-- Supabase project `nkigwyxbcshavhjmbuey` provides PostgreSQL, Auth, RLS, and transactional RPCs.
-- Render is intentionally not part of the deployment path.
-- The current frontend uses Next.js App Router and includes a dynamic order-detail route. GitHub Pages is static hosting and, for a private repository, may require a paid GitHub plan; it must not be treated as a guaranteed free deployment target.
-- Supabase provides backend services and Edge Functions, but it is not a drop-in Node.js/Next.js web host. Deploying this existing application publicly therefore requires either (a) a compatible frontend host, or (b) a deliberate frontend rewrite/export with routing and all user journeys retested. Do not enable static export without resolving the dynamic order route and confirming the build.
-- Do not publish the private repository, create a public mirror, or expose service-role keys to bypass hosting limitations.
+The project's non-negotiable starting constraint is **Rp0**. Do not introduce a paid plan, paid trial, or new third-party hosting dependency without explicit approval. Do not assume that a service's free tier will remain sufficient forever.
+
+- Keep this GitHub repository private.
+- Keep the existing Supabase project `nkigwyxbcshavhjmbuey` as the database/Auth/RLS/RPC backend unless a measured technical reason justifies changing it.
+- Render, Cloudflare, AppDeploy, and other managed frontend hosting platforms are not part of the default plan.
+- Never make the repository public or expose service-role/secret keys to work around hosting limitations.
+- Current CI validates type checking, lint, and the Next.js production build. A successful CI build does **not** mean the site is deployed or publicly reachable.
+- The frontend currently uses Next.js App Router and has a dynamic order-detail route. GitHub Pages cannot run the Next.js server runtime. Supabase backend services are not a drop-in Node.js/Next.js host.
+- Before changing the app, investigate whether a fully static client-side export can preserve all required flows, including dynamic order links, authentication redirects, catalog, seller tools, admin moderation, checkout, and order access control. Do not enable static export until these are adapted and tested.
+- If static output is feasible, evaluate hosting those files using resources already available in the existing GitHub/Supabase accounts, verifying real plan limits and routing behavior first. Do not assume Supabase Storage is a complete website host without testing path routing, headers, MIME types, cache behavior, and SPA fallbacks.
+- If no safe public-hosting route exists at Rp0, continue local development and CI, and document that public deployment is blocked. Do not silently introduce a paid dependency. Self-hosting can be evaluated later if suitable hardware and internet connectivity are available, with any domain, power, network, and security costs stated honestly.
 - Real payments, wallet/escrow, autonomous AI actions, and broad courier integrations remain disabled.
 
-### Safe deployment checklist
+### Rp0-first release checklist
 
-1. Confirm the chosen host supports the actual Next.js runtime and the account's current free-plan limits.
-2. Configure only `NEXT_PUBLIC_SUPABASE_URL` and the public anon/publishable key as frontend environment variables.
-3. Confirm Supabase Auth Site URL and redirect URLs match the final HTTPS domain.
-4. Run typecheck, lint, production build, and deployment smoke tests.
-5. Verify signup/signin, product listing, seller onboarding, admin moderation, atomic checkout, order access controls, and cancellation before calling the site live.
+1. Keep the repository private and CI green.
+2. Audit every route and browser/server dependency before considering static export.
+3. Verify the actual free-plan limits of resources already in use; no surprise subscriptions or paid trials.
+4. Configure only Supabase public URL and publishable/anon key in browser code. Never put a service-role or secret key in frontend bundles.
+5. Verify Supabase Auth redirect behavior on the candidate URL.
+6. Test signup/signin, product listing, seller onboarding, admin moderation, atomic checkout, order access controls, and cancellation.
+7. Call the system live only after deployment and end-to-end smoke tests succeed.
