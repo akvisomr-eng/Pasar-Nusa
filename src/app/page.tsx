@@ -18,7 +18,7 @@ export default function HomePage() {
   return (
     <main>
       <header className="topbar">
-        <Link className="brand" href="/" aria-label="Pasar-Nusa beranda"><span className="brand-mark">P</span><span>pasar<span className="brand-accent">nusa</span><small>Pasar lokal, peluang nasional</small></span></a>
+        <Link className="brand" href="/" aria-label="Pasar-Nusa beranda"><span className="brand-mark">P</span><span>pasar<span className="brand-accent">nusa</span><small>Pasar lokal, peluang nasional</small></span></Link>
         <nav aria-label="Navigasi utama"><a href="#kategori">Kategori</a><a href="#cara-kerja">Cara kerja</a><a href="#penjual">Untuk penjual</a></nav>
         <a className="button button-outline" href="#mulai">Masuk / Daftar</a>
       </header>
