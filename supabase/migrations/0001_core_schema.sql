@@ -138,7 +138,7 @@ create policy "inventory public for active products" on public.inventory for sel
   exists (select 1 from public.products p join public.stores s on s.id = p.store_id where p.id = product_id and p.status = 'active' and s.status = 'active')
 );
 create policy "buyer reads own orders" on public.orders for select to authenticated using (buyer_id = (select auth.uid()));
-create policy "buyer creates own pending order" on public.orders for insert to authenticated with check (buyer_id = (select auth.uid()) and status = 'pending_seller');
+-- Order creation is disabled until a server-side transaction RPC can validate prices, reserve stock, and write order items atomically.
 create policy "seller and buyer read order items" on public.order_items for select to authenticated using (
   exists (select 1 from public.orders o where o.id = order_id and o.buyer_id = (select auth.uid()))
   or exists (select 1 from public.stores s where s.id = store_id and s.owner_id = (select auth.uid()))
@@ -149,8 +149,8 @@ create policy "actor reads own audit entries" on public.audit_logs for select to
 -- Table privileges are deliberately narrow; RLS remains the final row-level gate.
 revoke all on public.inventory from anon, authenticated;
 grant select on public.inventory to anon, authenticated;
-revoke insert, update, delete on public.orders from authenticated;
-grant select, insert on public.orders to authenticated;
+revoke insert, update, delete on public.orders from anon, authenticated;
+grant select on public.orders to authenticated;
 revoke insert, update, delete on public.order_items from anon, authenticated;
 grant select on public.order_items to authenticated;
 revoke insert, update, delete on public.audit_logs from anon, authenticated;
