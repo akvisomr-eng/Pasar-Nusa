@@ -106,34 +106,8 @@ create index orders_buyer_created_idx on public.orders(buyer_id, created_at desc
 create index order_items_store_status_idx on public.order_items(store_id, status);
 create index audit_logs_entity_idx on public.audit_logs(entity_type, entity_id, created_at desc);
 
--- Stock is reserved through a transaction-safe RPC only; clients cannot directly write inventory.
-create or replace function public.reserve_inventory(p_product_id uuid, p_quantity integer)
-returns boolean
-language plpgsql
-security definer
-set search_path = ''
-as $$
-declare
-  v_updated integer;
-begin
-  if auth.uid() is null or p_quantity is null or p_quantity <= 0 then
-    raise exception 'invalid reservation request' using errcode = '22023';
-  end if;
-  update public.inventory i
-     set reserved = i.reserved + p_quantity, updated_at = now()
-    from public.products p
-    join public.stores s on s.id = p.store_id
-   where i.product_id = p_product_id
-     and p.id = i.product_id
-     and p.status = 'active'
-     and s.status = 'active'
-     and i.on_hand - i.reserved >= p_quantity;
-  get diagnostics v_updated = row_count;
-  return v_updated = 1;
-end;
-$$;
-revoke all on function public.reserve_inventory(uuid, integer) from public;
-grant execute on function public.reserve_inventory(uuid, integer) to authenticated;
+-- Inventory reservations will be implemented only together with a complete order transaction RPC.
+-- Clients cannot write inventory directly; no standalone reservation endpoint is exposed.
 
 -- All exposed tables have RLS enabled.
 alter table public.profiles enable row level security;
@@ -149,7 +123,7 @@ create policy "profiles read own" on public.profiles for select to authenticated
 create policy "profiles create own buyer profile" on public.profiles for insert to authenticated with check (id = (select auth.uid()) and role = 'buyer');
 create policy "active stores are public" on public.stores for select to anon, authenticated using (status = 'active' or owner_id = (select auth.uid()));
 create policy "seller creates own store" on public.stores for insert to authenticated with check (owner_id = (select auth.uid()) and status = 'pending');
-create policy "seller updates own store" on public.stores for update to authenticated using (owner_id = (select auth.uid())) with check (owner_id = (select auth.uid()));
+-- Store edits/status transitions are intentionally disabled until a guarded server-side workflow is implemented.
 create policy "active categories are public" on public.categories for select to anon, authenticated using (is_active = true);
 create policy "active products are public" on public.products for select to anon, authenticated using (
   status = 'active' and exists (select 1 from public.stores s where s.id = store_id and s.status = 'active')
@@ -159,11 +133,7 @@ create policy "seller creates own draft products" on public.products for insert 
   exists (select 1 from public.stores s where s.id = store_id and s.owner_id = (select auth.uid()) and s.status in ('pending','active'))
   and status = 'draft'
 );
-create policy "seller updates own products" on public.products for update to authenticated using (
-  exists (select 1 from public.stores s where s.id = store_id and s.owner_id = (select auth.uid()))
-) with check (
-  exists (select 1 from public.stores s where s.id = store_id and s.owner_id = (select auth.uid()))
-);
+-- Product edits/status transitions are intentionally disabled until a guarded server-side workflow is implemented.
 create policy "inventory public for active products" on public.inventory for select to anon, authenticated using (
   exists (select 1 from public.products p join public.stores s on s.id = p.store_id where p.id = product_id and p.status = 'active' and s.status = 'active')
 );
