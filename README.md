@@ -43,6 +43,7 @@ Migrations are stored in `supabase/migrations` and were applied to project `nkig
 - `0004_admin_moderation`
 - `0005_function_execute_privileges`
 - `0006_least_privilege_table_grants`
+- `0007_checkout_validation_hardening`
 
 After the first trusted owner account has signed up and its email has been verified, a project owner must promote that specific account to `platform_admin` in the Supabase SQL editor. Verify the email and UUID before running anything like:
 
