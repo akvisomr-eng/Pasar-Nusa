@@ -1,0 +1,51 @@
+name: Pasar-Nusa Static Release Preview
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-static-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Validate public Supabase configuration
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+        run: |
+          test -n "$NEXT_PUBLIC_SUPABASE_URL" || { echo "::error::Set repository variable NEXT_PUBLIC_SUPABASE_URL before running this workflow."; exit 1; }
+          test -n "$NEXT_PUBLIC_SUPABASE_ANON_KEY" || { echo "::error::Set repository variable NEXT_PUBLIC_SUPABASE_ANON_KEY to the Supabase publishable/anon key."; exit 1; }
+          case "$NEXT_PUBLIC_SUPABASE_URL" in https://*.supabase.co) ;; *) echo "::error::Supabase URL must use HTTPS and the expected Supabase project host."; exit 1;; esac
+          case "$NEXT_PUBLIC_SUPABASE_ANON_KEY" in sb_publishable_*) ;; eyJ*) ;; *) echo "::error::Use a Supabase publishable key or legacy anon key, never a service-role/secret key."; exit 1;; esac
+      - name: Install dependencies
+        run: npm install
+      - name: Type check
+        run: npm run typecheck
+      - name: Lint
+        run: npm run lint
+      - name: Build configured static export
+        run: npm run build:static
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+      - name: Verify routes and configured public client bundle
+        run: |
+          node scripts/verify-static-export.mjs
+          node scripts/verify-configured-static-export.mjs
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+      - name: Upload configured static preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: pasar-nusa-static-release-preview
+          path: out/
+          if-no-files-found: error
+          retention-days: 7
