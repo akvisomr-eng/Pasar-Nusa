@@ -5,6 +5,7 @@ on:
     paths:
       - "supabase/functions/pasar-nusa-web/**"
       - ".github/workflows/supabase-web-smoke.yml"
+      - "supabase/migrations/**"
   workflow_dispatch:
 
 permissions:
@@ -14,13 +15,37 @@ jobs:
   smoke-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Check public Supabase web endpoint
+      - name: Check public storefront endpoint
         shell: bash
         run: |
           set -euo pipefail
-          URL="https://nkigwyxbcshavhjmbuey.supabase.co/functions/v1/pasar-nusa-web"
+          BASE="https://nkigwyxbcshavhjmbuey.supabase.co"
+          URL="$BASE/functions/v1/pasar-nusa-web"
+          KEY="sb_publishable_DyR4ePgc1QAIid8MDdd7dA_VKjTFnqc"
           curl --fail --silent --show-error --location --retry 5 --retry-delay 3 "$URL" -o /tmp/pasar-nusa.html
           grep -q "Pasar Nusa" /tmp/pasar-nusa.html
           grep -q "Dashboard admin" /tmp/pasar-nusa.html
+          grep -q "Panel pedagang" /tmp/pasar-nusa.html
           test "$(wc -c < /tmp/pasar-nusa.html)" -gt 3000
-          echo "Public endpoint returned the Pasar Nusa storefront and admin entry point."
+          echo "Public endpoint returned the storefront and marketplace flows."
+
+      - name: Check public catalog API and reject anonymous writes
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE="https://nkigwyxbcshavhjmbuey.supabase.co"
+          KEY="sb_publishable_DyR4ePgc1QAIid8MDdd7dA_VKjTFnqc"
+          curl --fail --silent --show-error --retry 3 --retry-delay 2 \
+            -H "apikey: $KEY" -H "Authorization: Bearer $KEY" \
+            "$BASE/rest/v1/categories?select=id,name,slug&limit=10" -o /tmp/pn-categories.json
+          node -e 'const x=require("/tmp/pn-categories.json"); if(!Array.isArray(x)||x.length<1) process.exit(1); console.log("Public categories:",x.length)'
+          curl --fail --silent --show-error --retry 3 --retry-delay 2 \
+            -H "apikey: $KEY" -H "Authorization: Bearer $KEY" \
+            "$BASE/rest/v1/products?select=id,name,price_idr,unit_label,stores(name)&status=eq.active&limit=5" -o /tmp/pn-products.json
+          node -e 'const x=require("/tmp/pn-products.json"); if(!Array.isArray(x)) process.exit(1); console.log("Public active products:",x.length)'
+          status="$(curl --silent --show-error -X POST -H "apikey: $KEY" -H "Authorization: Bearer $KEY" -H "Content-Type: application/json" -d '{"p_items":[],"p_buyer_note":"","p_idempotency_key":"smoke-anon-0001"}' -o /tmp/pn-anon-checkout.txt -w '%{http_code}' "$BASE/rest/v1/rpc/checkout_order")"
+          if [[ "$status" -ge 200 && "$status" -lt 300 ]]; then
+            echo "::error::Anonymous checkout unexpectedly succeeded."
+            exit 1
+          fi
+          echo "Anonymous checkout correctly rejected (HTTP $status)."
