@@ -5,9 +5,9 @@ const basePath = (process.env.NEXT_PUBLIC_BASE_PATH ?? process.env.PASAR_NUSA_BA
 const faviconPath = basePath ? `${basePath}/favicon.svg` : "/favicon.svg";
 
 export const metadata: Metadata = {
-  title: "Pasar-Nusa — Pedagang Ecer, Pelayanan Sultan",
-  description: "Pasar digital untuk pedagang lokal, pembeli, dan pelaku usaha Indonesia.",
-  applicationName: "Pasar-Nusa",
+  title: "Pasar Nusa — Pasar Digital Komoditas Indonesia",
+  description: "Temukan hasil pertanian, perkebunan, perikanan, dan produk UMKM langsung dari pelaku usaha lokal di Pasar Nusa.",
+  applicationName: "Pasar Nusa",
   icons: { icon: faviconPath, shortcut: faviconPath }
 };
 
