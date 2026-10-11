@@ -4,7 +4,8 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Pasar-Nusa — Pedagang Ecer, Pelayanan Sultan",
   description: "Pasar digital untuk pedagang lokal, pembeli, dan pelaku usaha Indonesia.",
-  applicationName: "Pasar-Nusa"
+  applicationName: "Pasar-Nusa",
+  icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" }
 };
 
 export const viewport: Viewport = {
