@@ -25,17 +25,12 @@ export default function HomePage() {
       <section className="hero">
         <div className="hero-copy">
           <span className="eyebrow"><span className="live-dot" /> EKOSISTEM DAGANG INDONESIA</span>
-          <h1>Pedagang Ecer,<br /><em>Pelayanan Sultan.</em></h1>
-          <p>Belanja kebutuhan harian, temukan pedagang lokal, dan bangun peluang usaha dari satu tempat.</p>
-          <form className="search" action={`${process.env.PASAR_NUSA_BASE_PATH ?? ""}/katalog`} method="get"><label className="sr-only" htmlFor="q">Cari produk atau toko</label><span aria-hidden="true">⌕</span><input id="q" name="q" placeholder="Cari beras, sayur, toko, atau grosir..." /><button type="submit">Cari</button></form>
+          <h1>Belanja lebih dekat.<br /><em>Tumbuh bersama.</em></h1>
+          <p>Temukan kebutuhan dari pelaku usaha lokal Indonesia. Belanja dengan informasi yang jelas, sambil membuka peluang tumbuh bagi petani, nelayan, dan UMKM.</p>
+          <form className="search" action={`${process.env.PASAR_NUSA_BASE_PATH ?? ""}/katalog`} method="get"><label className="sr-only" htmlFor="q">Cari produk atau toko</label><span aria-hidden="true">⌕</span><input id="q" name="q" placeholder="Cari beras, sayur, ikan, rempah..." /><button type="submit">Cari</button></form>
           <div className="hero-note"><span>✓</span> Harga jelas <span>✓</span> Stok terkonfirmasi <span>✓</span> Pedagang lokal</div>
         </div>
-        <div className="hero-art" aria-label="Ilustrasi pasar dan produk lokal">
-          <div className="sun"></div><div className="art-label label-top">DARI PEDAGANG LOKAL</div>
-          <div className="market-building"><div className="awning"><i></i><i></i><i></i><i></i><i></i><i></i></div><div className="store-window"><span>pasar<br/>nusa</span></div></div>
-          <div className="produce produce-one">🥬</div><div className="produce produce-two">🍊</div><div className="produce produce-three">🌾</div>
-          <div className="art-label label-bottom">TUMBUH BERSAMA</div>
-        </div>
+        <div className="hero-art" aria-label="Ilustrasi hasil bumi Nusantara"><span className="hero-art-tag">DARI BUMI NUSANTARA</span><img className="hero-illustration" src={`${process.env.PASAR_NUSA_BASE_PATH ?? ""}/hero-hasil-nusantara.svg`} alt="Hasil panen Nusantara berupa sayuran, jagung, cabai, dan hasil bumi dalam keranjang" /><div className="hero-art-caption"><strong>Baik untukmu, berarti bagi mereka.</strong><small>Setiap pilihan ikut menggerakkan usaha lokal.</small></div></div>
       </section>
       <section className="trust-strip"><div><strong>Transparan</strong><span>Harga & informasi jelas</span></div><div><strong>Terhubung</strong><span>Pedagang dan pembeli</span></div><div><strong>Bertumbuh</strong><span>Dari eceran ke grosir</span></div></section>
       <section className="section" id="kategori">
