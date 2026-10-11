@@ -11,7 +11,7 @@ const nextConfig: NextConfig = staticExport
   ? {
       ...sharedConfig,
       output: "export",
-      basePath: "/Pasar-Nusa",
+      basePath: process.env.PASAR_NUSA_BASE_PATH ?? "/Pasar-Nusa",
       trailingSlash: true,
       images: { unoptimized: true }
     }
