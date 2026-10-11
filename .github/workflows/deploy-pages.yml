@@ -84,3 +84,29 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Verify published storefront revision
+        env:
+          SITE_URL: ${{ steps.deployment.outputs.page_url }}
+          LEGACY_URL: https://nkigwyxbcshavhjmbuey.supabase.co/functions/v1/pasar-nusa-web
+        run: |
+          set -eu
+          verify_url() {
+            url="$1"
+            label="$2"
+            attempt=1
+            while [ "$attempt" -le 12 ]; do
+              if curl --fail --silent --show-error --location --max-time 30 "$url" -o /tmp/pasar-nusa-live.html 2>/dev/null &&
+                grep -q 'data-build="pasar-nusa-storefront-2026-10-11"' /tmp/pasar-nusa-live.html; then
+                echo "Verified $label serves the expected storefront revision."
+                return 0
+              fi
+              echo "Waiting for $label to serve the deployed revision (attempt $attempt/12)..."
+              sleep 5
+              attempt=$((attempt + 1))
+            done
+            echo "::error::$label did not serve the expected storefront revision."
+            return 1
+          }
+          verify_url "$SITE_URL" "GitHub Pages"
+          verify_url "$LEGACY_URL" "Supabase legacy URL"
