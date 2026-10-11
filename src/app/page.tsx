@@ -2,104 +2,44 @@ import Link from "next/link";
 import HomeProductShelf from "@/components/home-product-shelf";
 
 const categories = [
-  { icon: "🥬", title: "Sayur & buah", desc: "Panen segar langsung dari kebun", query: "sayur", tone: "leaf" },
-  { icon: "🌾", title: "Beras & pangan", desc: "Bahan pokok untuk rumah dan usaha", query: "beras", tone: "grain" },
-  { icon: "🐟", title: "Hasil perikanan", desc: "Hasil laut dan budidaya lokal", query: "ikan", tone: "sea" },
-  { icon: "🌿", title: "Perkebunan & rempah", desc: "Komoditas khas dari Nusantara", query: "rempah", tone: "spice" },
-];
-
-const benefits = [
-  { icon: "✓", title: "Harga transparan", desc: "Harga dan satuan terlihat sebelum membeli." },
-  { icon: "⌂", title: "Dukung usaha lokal", desc: "Terhubung dengan petani, nelayan, dan UMKM." },
-  { icon: "↗", title: "Belanja eceran & usaha", desc: "Cari kebutuhan rumah maupun pasokan usaha." },
+  { icon: "🥬", title: "Sayur & buah", detail: "Segar dari kebun", query: "sayur", tone: "leaf" },
+  { icon: "🌾", title: "Beras & pangan", detail: "Pangan pilihan", query: "beras", tone: "grain" },
+  { icon: "🐟", title: "Hasil perikanan", detail: "Laut & budidaya", query: "ikan", tone: "sea" },
+  { icon: "🌶️", title: "Rempah & bumbu", detail: "Aroma Nusantara", query: "rempah", tone: "spice" },
+  { icon: "☕", title: "Perkebunan", detail: "Kopi, kakao, kelapa", query: "kopi", tone: "estate" },
+  { icon: "🥜", title: "UMKM & olahan", detail: "Produk lokal", query: "olahan", tone: "craft" },
 ];
 
 export default function HomePage() {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
   return (
-    <main className="storefront template-storefront" data-build="pasar-nusa-khareedo-erpcrm-2026-10-11">
-      <div className="storefront-promo">
-        <span>PASAR NUSA · HASIL NUSANTARA</span>
-        <span>Belanja lokal, tumbuhkan ekonomi bersama</span>
-        <Link href="/katalog">Promo & produk <span aria-hidden="true">→</span></Link>
-      </div>
-      <header className="store-header">
-        <Link className="store-logo" href="/" aria-label="Pasar Nusa beranda">
-          <span className="store-logo-mark">P</span>
-          <span>pasar<span>nusa</span><small>MARKETPLACE KOMODITAS INDONESIA</small></span>
-        </Link>
-        <form className="store-search" action={`${basePath}/katalog`} method="get">
-          <span aria-hidden="true">⌕</span>
-          <input id="store-q" name="q" placeholder="Cari beras, sayur, ikan, rempah..." aria-label="Cari produk" />
-          <button type="submit">Cari produk</button>
-        </form>
-        <div className="store-header-actions">
-          <Link href="/masuk" aria-label="Masuk ke akun"><span>♙</span><small>Akun saya</small></Link>
-          <Link href="/keranjang" aria-label="Buka keranjang"><span>🛒</span><small>Keranjang</small></Link>
-        </div>
+    <main className="pn-market" data-build="pasar-nusa-khareedo-erpcrm-2026-10-11">
+      <div className="pn-topline"><div className="pn-wrap"><span>Pasar digital komoditas Indonesia</span><span className="pn-topline-right">Dukung petani, nelayan & UMKM lokal <i>✳</i> <Link href="/seller">Buka toko gratis ↗</Link></span></div></div>
+      <header className="pn-header pn-wrap">
+        <Link className="pn-logo" href="/" aria-label="Pasar Nusa beranda"><span className="pn-logo-icon">N</span><span className="pn-logo-type">PASAR<span>NUSA</span><small>HASIL NUSANTARA, SATU PASAR</small></span></Link>
+        <form className="pn-search" action={`${basePath}/katalog`} method="get"><select aria-label="Kategori pencarian" defaultValue="all"><option value="all">Semua kategori</option><option value="pangan">Pangan</option><option value="perikanan">Perikanan</option><option value="perkebunan">Perkebunan</option></select><input name="q" placeholder="Cari beras, cabai, ikan, kopi..." aria-label="Cari produk"/><button type="submit" aria-label="Cari">⌕</button></form>
+        <div className="pn-header-links"><Link href="/masuk"><span className="pn-line-icon">♙</span><span>Masuk<small>Akun saya</small></span></Link><Link href="/keranjang"><span className="pn-line-icon">🛒</span><span>Keranjang<small>Produk pilihan</small></span></Link></div>
       </header>
-      <nav className="store-nav" aria-label="Navigasi kategori">
-        <Link className="nav-all" href="/katalog">☰ Semua kategori</Link>
-        <Link href="/katalog?q=sayur">Sayur & buah</Link>
-        <Link href="/katalog?q=beras">Beras & pangan</Link>
-        <Link href="/katalog?q=ikan">Hasil perikanan</Link>
-        <Link href="/katalog?q=rempah">Perkebunan & rempah</Link>
-        <Link href="/seller">Jadi penjual <span aria-hidden="true">↗</span></Link>
-      </nav>
-
-      <section className="shop-hero">
-        <div className="shop-hero-copy">
-          <span className="shop-kicker"><i /> PASAR LOKAL · PELUANG NASIONAL</span>
-          <h1>Belanja hasil bumi<br />dengan cara <em>lebih mudah.</em></h1>
-          <p>Temukan komoditas pertanian, perkebunan, perikanan, dan produk UMKM Indonesia dalam satu pasar digital. Harga jelas, informasi tertata, peluang terbuka lebih luas.</p>
-          <div className="shop-hero-actions">
-            <Link className="shop-primary-btn" href="/katalog">Jelajahi produk <span>→</span></Link>
-            <Link className="shop-secondary-btn" href="/seller">Mulai berjualan</Link>
+      <nav className="pn-main-nav"><div className="pn-wrap"><Link className="pn-nav-all" href="/katalog">☰ <span>Semua kategori</span></Link><Link href="/katalog?q=sayur">Sayur & Buah</Link><Link href="/katalog?q=beras">Beras & Pangan</Link><Link href="/katalog?q=ikan">Perikanan</Link><Link href="/katalog?q=rempah">Rempah</Link><Link href="/katalog?q=kopi">Perkebunan</Link><Link href="/seller">Untuk Penjual ↗</Link></div></nav>
+      <div className="pn-wrap pn-page">
+        <div className="pn-breadcrumb"><span>Beranda</span><b>/</b><span>Marketplace Nusantara</span></div>
+        <section className="pn-hero-layout">
+          <aside className="pn-category-menu"><h2>Jelajahi kategori</h2>{categories.map((item,index)=><Link key={item.title} href={`/katalog?q=${encodeURIComponent(item.query)}`}><span className={`pn-menu-icon ${item.tone}`}>{item.icon}</span><span>{item.title}<small>{item.detail}</small></span><b>›</b></Link>)}<Link className="pn-all-categories" href="/katalog">Lihat semua kategori <span>→</span></Link></aside>
+          <div className="pn-hero-stack">
+            <section className="pn-hero-banner">
+              <div className="pn-hero-copy"><span className="pn-label"><i/> PASAR LOKAL, PELUANG NASIONAL</span><h1>Belanja hasil bumi<br/>jadi <em>lebih mudah.</em></h1><p>Temukan hasil pertanian, perkebunan, perikanan, dan produk UMKM dari pelaku usaha Indonesia.</p><div className="pn-hero-buttons"><Link className="pn-btn-red" href="/katalog">Mulai belanja <span>→</span></Link><Link className="pn-text-link" href="/seller">Saya ingin berjualan ↗</Link></div><div className="pn-hero-trust"><span>✓ Harga dan satuan jelas</span><span>✓ Dukung usaha lokal</span></div></div>
+              <div className="pn-hero-visual"><div className="pn-visual-circle"></div><div className="pn-visual-sun">✳</div><img src={`${basePath}/hero-hasil-nusantara.svg`} alt="Ilustrasi hasil bumi Nusantara"/><div className="pn-visual-tag"><b>100%</b><span>semangat lokal</span></div><div className="pn-visual-stamp">HASIL<br/>NUSANTARA</div></div>
+              <div className="pn-hero-pagination"><i className="active"/><i/><i/></div>
+            </section>
+            <div className="pn-promo-pair"><Link href="/katalog?q=beras" className="pn-promo-card pn-promo-grain"><span className="pn-promo-overline">KEBUTUHAN PANGAN</span><b>Penuhi stok<br/>usaha Anda.</b><span className="pn-promo-cta">Cari produk <i>↗</i></span><span className="pn-promo-art">🌾</span></Link><Link href="/seller" className="pn-promo-card pn-promo-seller"><span className="pn-promo-overline">UNTUK PELAKU USAHA</span><b>Bawa produk lokal<br/>ke pasar yang luas.</b><span className="pn-promo-cta">Mulai jualan <i>↗</i></span><span className="pn-promo-art">🧺</span></Link></div>
           </div>
-          <div className="shop-hero-points"><span>✓ Informasi produk transparan</span><span>✓ Mendukung usaha lokal</span></div>
-        </div>
-        <div className="shop-hero-art">
-          <div className="shop-art-sun" />
-          <div className="shop-art-orbit orbit-one" />
-          <div className="shop-art-orbit orbit-two" />
-          <img src={`${basePath}/hero-hasil-nusantara.svg`} alt="Ilustrasi keranjang hasil panen Nusantara" />
-          <div className="shop-art-sticker"><span>✳</span><b>Dari lokal,<br />untuk semua.</b></div>
-          <div className="shop-art-caption"><span>HASIL PILIHAN</span><b>Segar. Lokal. Bernilai.</b></div>
-        </div>
-      </section>
-
-      <section className="shop-benefits" aria-label="Keunggulan Pasar Nusa">
-        {benefits.map(item => <div className="shop-benefit" key={item.title}><span className="shop-benefit-icon">{item.icon}</span><div><b>{item.title}</b><p>{item.desc}</p></div></div>)}
-      </section>
-
-      <section className="shop-section" id="kategori">
-        <div className="shop-section-head"><div><span className="shop-eyebrow">BELANJA BERDASARKAN KATEGORI</span><h2>Jelajahi pasar Nusantara</h2><p>Temukan produk sesuai kebutuhan rumah, toko, maupun usaha Anda.</p></div><Link href="/katalog">Lihat semua produk <span>→</span></Link></div>
-        <div className="shop-category-grid">
-          {categories.map(item => <Link className={`shop-category-card ${item.tone}`} href={`/katalog?q=${encodeURIComponent(item.query)}`} key={item.title}><span className="shop-category-art" aria-hidden="true">{item.icon}</span><span className="shop-category-arrow">↗</span><b>{item.title}</b><p>{item.desc}</p><span className="shop-category-link">Jelajahi kategori <span>→</span></span></Link>)}
-        </div>
-      </section>
-
-      <HomeProductShelf />
-
-      <section className="shop-seller-banner">
-        <div className="seller-banner-mark">✳</div>
-        <div><span className="shop-eyebrow">UNTUK PETANI, NELAYAN & UMKM</span><h2>Produk lokal pantas menjangkau pasar lebih luas.</h2><p>Bangun etalase digital, kelola produk, dan kembangkan usaha bersama ekosistem Pasar Nusa.</p></div>
-        <Link className="shop-primary-btn" href="/seller">Daftarkan toko <span>→</span></Link>
-      </section>
-
-      <section className="shop-trust-section">
-        <div><span className="shop-eyebrow">BELANJA DENGAN LEBIH PERCAYA DIRI</span><h2>Satu pasar untuk<br />peluang yang lebih luas.</h2></div>
-        <div className="shop-trust-list">
-          <p><span>01</span><b>Informasi produk yang jelas</b><small>Harga, satuan, dan deskripsi membantu pembeli memahami produk.</small></p>
-          <p><span>02</span><b>Pengelolaan penjual terstruktur</b><small>Toko dan produk melalui alur pengajuan serta moderasi platform.</small></p>
-          <p><span>03</span><b>Transaksi yang dapat ditelusuri</b><small>Alur pesanan dirancang agar pembeli dan penjual mudah memantau proses.</small></p>
-        </div>
-      </section>
-      <footer className="shop-footer">
-        <Link className="store-logo" href="/"><span className="store-logo-mark">P</span><span>pasar<span>nusa</span><small>MARKETPLACE KOMODITAS INDONESIA</small></span></Link>
-        <span>© {new Date().getFullYear()} Pasar Nusa</span>
-        <span>Dibangun untuk tumbuh bersama pelaku usaha Indonesia.</span>
-      </footer>
+        </section>
+        <section className="pn-service-strip"><div><span>✓</span><p><b>Belanja lebih praktis</b><small>Produk dalam satu katalog</small></p></div><div><span>♧</span><p><b>Langsung dukung lokal</b><small>Petani, nelayan & UMKM</small></p></div><div><span>▤</span><p><b>Informasi transparan</b><small>Harga dan satuan terlihat</small></p></div><div><span>↗</span><p><b>Pasar untuk bertumbuh</b><small>Eceran maupun kebutuhan usaha</small></p></div></section>
+        <section className="pn-categories-section"><div className="pn-section-title"><div><span className="pn-section-kicker">PILIHAN UNTUK ANDA</span><h2>Belanja berdasarkan kategori</h2></div><Link href="/katalog">Semua kategori <b>→</b></Link></div><div className="pn-category-grid">{categories.map(item=><Link key={item.title} href={`/katalog?q=${encodeURIComponent(item.query)}`} className="pn-category-tile"><span className={`pn-category-illustration ${item.tone}`}>{item.icon}</span><b>{item.title}</b><small>{item.detail}</small></Link>)}</div></section>
+        <section className="pn-product-section"><div className="pn-section-title"><div><span className="pn-section-kicker">DARI TOKO PILIHAN</span><h2>Produk untuk kebutuhan Anda</h2><p>Jelajahi produk aktif yang tersedia di Pasar Nusa.</p></div><Link href="/katalog">Lihat katalog <b>→</b></Link></div><HomeProductShelf /></section>
+        <section className="pn-seller-band"><div className="pn-seller-symbol">✳</div><div><span className="pn-section-kicker">PETANI · NELAYAN · UMKM</span><h2>Produk lokal layak dikenal lebih luas.</h2><p>Bangun etalase digital, kelola katalog, stok, dan pesanan usaha Anda.</p></div><Link className="pn-btn-red" href="/seller">Daftarkan toko <span>→</span></Link></section>
+      </div>
+      <footer className="pn-footer"><div className="pn-wrap pn-footer-main"><Link className="pn-logo pn-footer-logo" href="/"><span className="pn-logo-icon">N</span><span className="pn-logo-type">PASAR<span>NUSA</span><small>HASIL NUSANTARA, SATU PASAR</small></span></Link><p>Mempertemukan komoditas lokal dengan peluang pasar yang lebih luas.</p><div className="pn-footer-links"><Link href="/katalog">Katalog</Link><Link href="/seller">Untuk penjual</Link><Link href="/pesanan">Pesanan</Link><Link href="/masuk">Akun</Link></div></div><div className="pn-wrap pn-footer-bottom"><span>© {new Date().getFullYear()} Pasar Nusa</span><span>Dibangun untuk tumbuh bersama pelaku usaha Indonesia.</span></div></footer>
     </main>
   );
 }
