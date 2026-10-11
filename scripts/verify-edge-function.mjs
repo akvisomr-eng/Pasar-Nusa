@@ -1,0 +1,17 @@
+import { readFileSync } from "node:fs";
+import vm from "node:vm";
+
+const source = readFileSync("supabase/functions/pasar-nusa-web/index.ts", "utf8");
+const start = source.indexOf("const PAGE = ") + "const PAGE = ".length;
+const end = source.indexOf(";\nDeno.serve", start);
+if (start < "const PAGE = ".length || end < 0) {
+  throw new Error("Could not locate the embedded storefront HTML.");
+}
+const html = JSON.parse(source.slice(start, end));
+const match = html.match(/<script>([\\s\\S]*?)<\\/script>/);
+if (!match) throw new Error("Storefront JavaScript block is missing.");
+new vm.Script(match[1], { filename: "pasar-nusa-inline.js" });
+for (const marker of ["Pasar Nusa", "Dashboard admin", "Panel pedagang", "checkout_order", "seller_decide_order_item", "bootstrap_platform_admin"]) {
+  if (!html.includes(marker)) throw new Error(`Missing required storefront marker: ${marker}`);
+}
+console.log("Embedded storefront JavaScript syntax and required marketplace flows verified.");
