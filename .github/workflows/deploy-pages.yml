@@ -110,3 +110,18 @@ jobs:
           }
           verify_url "$SITE_URL" "GitHub Pages"
           verify_url "$LEGACY_URL" "Supabase legacy URL"
+
+          FAVICON_URL="${SITE_URL%/}/favicon.svg"
+          attempt=1
+          while [ "$attempt" -le 12 ]; do
+            if curl --fail --silent --show-error --location --max-time 30 "$FAVICON_URL" -o /tmp/pasar-nusa-favicon.svg 2>/dev/null &&
+              grep -q '<svg' /tmp/pasar-nusa-favicon.svg; then
+              echo "Verified GitHub Pages serves the favicon at $FAVICON_URL."
+              exit 0
+            fi
+            echo "Waiting for the published favicon (attempt $attempt/12)..."
+            sleep 5
+            attempt=$((attempt + 1))
+          done
+          echo "::error::GitHub Pages favicon was not served at $FAVICON_URL."
+          exit 1
