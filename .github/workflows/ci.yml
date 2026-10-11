@@ -48,7 +48,7 @@ jobs:
           status="$(curl --silent --show-error --location --retry 3 --retry-all-errors --retry-delay 2 --max-time 30 --output "$response_file" --write-out '%{http_code}' "$SITE_URL")"
           test "$status" = "200"
           grep -qi 'Pasar Nusa' "$response_file"
-          grep -qi 'Hasil terbaik' "$response_file"
+          grep -qi 'Belanja hasil bumi' "$response_file"
           grep -qi 'Jelajahi produk' "$response_file"
           echo "Legacy endpoint resolves to the current storefront (HTTP $status)."
       - name: Upload static build artifact for inspection
