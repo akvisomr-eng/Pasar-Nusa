@@ -84,3 +84,20 @@ The project's non-negotiable starting constraint is **Rp0**. Do not introduce a 
 5. Verify Supabase Auth redirect behavior on the candidate URL.
 6. Test signup/signin, product listing, seller onboarding, admin moderation, atomic checkout, order access controls, and cancellation.
 7. Call the system live only after deployment and end-to-end smoke tests succeed.
+
+
+## Public preview — Supabase Edge Function
+
+The current browser preview is served by the existing Supabase project; no extra hosting provider is used.
+
+- Public preview URL: https://nkigwyxbcshavhjmbuey.supabase.co/functions/v1/pasar-nusa-web
+- Source: `supabase/functions/pasar-nusa-web/index.ts`
+- The endpoint serves the public HTML shell. Browser data requests use only the Supabase publishable key and the signed-in user's access token.
+- Privileged store/product moderation is performed by existing database RPCs that check the `platform_admin` role. The public page endpoint itself does not receive a service-role key.
+- A GitHub Actions smoke test checks that the endpoint returns the Pasar Nusa page.
+
+### First administrator setup
+
+The database currently has no registered users, stores, or products. Create the first account through the preview's sign-up flow and verify its email if Supabase Auth requires it. Then, as the trusted project owner, inspect that exact account in Supabase SQL Editor and promote only its verified UUID to `platform_admin` using the safe procedure above. Never promote an account based only on an unverified email or let a public signup request assign its own role.
+
+This preview is not a claim that payments or full production operations are ready. Online payments, wallet/escrow, and automatic shipping integrations remain disabled. End-to-end browser testing and the first trusted administrator setup are still required before announcing a full commercial launch.
