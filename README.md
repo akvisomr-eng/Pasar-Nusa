@@ -46,19 +46,7 @@ Migrations are stored in `supabase/migrations` and were applied to project `nkig
 - `0007_checkout_validation_hardening`
 - `0008_avoid_recursive_order_rls`
 
-After the first trusted owner account has signed up and its email has been verified, a project owner must promote that specific account to `platform_admin` in the Supabase SQL editor. Verify the email and UUID before running anything like:
-
-```sql
--- First inspect the exact account; do not guess the UUID.
-select id, email from auth.users where email = 'OWNER_EMAIL_TO_VERIFY';
-
--- Only after verifying the exact UUID belongs to the intended platform owner:
-update public.profiles
-set role = 'platform_admin', updated_at = now()
-where id = 'VERIFIED_AUTH_USER_UUID';
-```
-
-Do not expose the SQL editor, database credentials, or service-role keys to end users. Admin roles are never accepted from signup metadata.
+The first account must be registered normally through Supabase Auth. After the trusted owner signs in with `akvisomr@gmail.com`, the narrowly scoped `bootstrap_platform_admin()` database RPC promotes only that authenticated email's own profile. Other accounts receive no elevated role. The RPC is called by the storefront's administrator check and does not accept a user ID or role from the browser.
 
 ## Deployment architecture and status — Rp0 first
 
@@ -98,6 +86,6 @@ The current browser preview is served by the existing Supabase project; no extra
 
 ### First administrator setup
 
-The database currently has no registered users, stores, or products. Create the first account through the preview's sign-up flow and verify its email if Supabase Auth requires it. Then, as the trusted project owner, inspect that exact account in Supabase SQL Editor and promote only its verified UUID to `platform_admin` using the safe procedure above. Never promote an account based only on an unverified email or let a public signup request assign its own role.
+The database had no registered users, stores, or products at the last verified count. Create the first account through the preview's sign-up flow. If email confirmation is enabled, verify the email and then sign in with `akvisomr@gmail.com`; the scoped bootstrap RPC will promote only that authenticated account. Never share service-role keys or allow signup metadata to choose roles.
 
-This preview is not a claim that payments or full production operations are ready. Online payments, wallet/escrow, and automatic shipping integrations remain disabled. End-to-end browser testing and the first trusted administrator setup are still required before announcing a full commercial launch.
+The public endpoint is reachable and the GitHub Actions endpoint smoke test passes. This is a live **MVP preview**, not yet a fully verified commercial launch: no real browser session has been used to test signup, seller onboarding, moderation, checkout, or order fulfillment end to end. Online payment processing, wallet/escrow, and automatic shipping integrations remain disabled. Do not accept online payments until a payment provider and reconciliation/refund procedures are implemented and tested.
