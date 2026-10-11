@@ -97,7 +97,7 @@ jobs:
             attempt=1
             while [ "$attempt" -le 12 ]; do
               if curl --fail --silent --show-error --location --max-time 30 "$url" -o /tmp/pasar-nusa-live.html 2>/dev/null &&
-                grep -q 'data-build="pasar-nusa-storefront-2026-10-11"' /tmp/pasar-nusa-live.html; then
+                grep -q 'data-build="pasar-nusa-khareedo-erpcrm-2026-10-11"' /tmp/pasar-nusa-live.html; then
                 echo "Verified $label serves the expected storefront revision."
                 return 0
               fi
