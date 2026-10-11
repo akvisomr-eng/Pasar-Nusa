@@ -21,11 +21,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
 
       - name: Validate public Supabase configuration
         env:
@@ -38,7 +40,7 @@ jobs:
           case "$NEXT_PUBLIC_SUPABASE_ANON_KEY" in sb_publishable_*) ;; eyJ*) ;; *) echo "::error::Use only a publishable/anon key, never a service-role/secret key."; exit 1;; esac
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Type check
         run: npm run typecheck
