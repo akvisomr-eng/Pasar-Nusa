@@ -28,3 +28,15 @@
 @media(max-width:1000px){.admin-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.admin-review-grid{padding-left:6%;padding-right:6%}.admin-dashboard{padding-left:6%;padding-right:6%}.admin-welcome{padding-left:6%;padding-right:6%}.admin-integrity{margin-left:6%;margin-right:6%}}
 @media(max-width:760px){.admin-welcome{grid-template-columns:1fr}.admin-welcome-art{display:none}.admin-review-grid{grid-template-columns:1fr}.admin-quicklinks{grid-template-columns:1fr}.admin-quicklinks>a{padding:13px}.admin-integrity{align-items:flex-start}.admin-integrity-tag{display:none}}
 @media(max-width:480px){.admin-dashboard{padding-top:26px}.admin-metrics{gap:9px}.admin-metric{padding:13px;min-height:140px}.admin-metric>strong{font-size:27px}.admin-metric>small{font-size:8px}.admin-section-heading h2{font-size:21px}.admin-review-card{padding:15px}.admin-moderation-row{flex-wrap:wrap}.admin-moderation-row .admin-row-main{flex-basis:100%}.admin-moderation-row .seller-order-actions{flex-direction:row;margin-left:44px}.admin-moderation-row .seller-order-actions button{min-width:75px}.admin-integrity{margin-bottom:28px;padding:13px}}
+
+
+/* Catalog discovery tools */
+.catalog-toolbar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;margin-bottom:24px}
+.catalog-search-field{display:flex;align-items:center;gap:10px;min-width:0;padding:0 15px;border:1px solid #dfe6da;border-radius:9px;background:#fff;color:#7c8a7e}
+.catalog-search-field>span{font-size:25px}
+.catalog-search-field input{width:100%;min-width:0;padding:14px 0;border:0;outline:0;background:transparent;font:12px 'DM Sans',sans-serif;color:var(--ink)}
+.catalog-sort{display:flex;align-items:center;gap:10px;padding:0 12px;border:1px solid #dfe6da;border-radius:9px;background:#fff;font-size:10px;font-weight:700;color:#657568}
+.catalog-sort select{max-width:170px;padding:13px 0;border:0;outline:0;background:transparent;color:var(--green);font:700 11px 'DM Sans',sans-serif}
+.catalog-heading{margin-bottom:18px}
+.catalog-search-field:focus-within{border-color:#8bad8a;box-shadow:0 0 0 3px #e5efdf}
+@media(max-width:600px){.catalog-toolbar{grid-template-columns:1fr}.catalog-sort{justify-content:space-between;padding-left:14px}.catalog-sort select{flex:1;max-width:none;text-align:right}.catalog-search-field input{font-size:11px}.catalog-content{padding-top:28px}}
