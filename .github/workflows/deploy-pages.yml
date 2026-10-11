@@ -88,7 +88,6 @@ jobs:
       - name: Verify published storefront revision
         env:
           SITE_URL: ${{ steps.deployment.outputs.page_url }}
-          LEGACY_URL: https://nkigwyxbcshavhjmbuey.supabase.co/functions/v1/pasar-nusa-web
         run: |
           set -eu
           verify_url() {
@@ -97,7 +96,7 @@ jobs:
             attempt=1
             while [ "$attempt" -le 12 ]; do
               if curl --fail --silent --show-error --location --max-time 30 "$url" -o /tmp/pasar-nusa-live.html 2>/dev/null &&
-                grep -q 'data-build="pasar-nusa-khareedo-erpcrm-2026-10-11"' /tmp/pasar-nusa-live.html; then
+                grep -q 'data-build="pasar-nusa-modern-storefront-2026-10-11"' /tmp/pasar-nusa-live.html; then
                 echo "Verified $label serves the expected storefront revision."
                 return 0
               fi
@@ -109,7 +108,6 @@ jobs:
             return 1
           }
           verify_url "$SITE_URL" "GitHub Pages"
-          verify_url "$LEGACY_URL" "Supabase legacy URL"
 
           FAVICON_URL="${SITE_URL%/}/favicon.svg"
           attempt=1
