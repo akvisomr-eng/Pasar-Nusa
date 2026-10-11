@@ -37,6 +37,8 @@ jobs:
         run: npm run build:static
       - name: Verify exported routes and assets
         run: node scripts/verify-static-export.mjs
+      - name: Verify embedded storefront JavaScript
+        run: npm run verify:edge
       - name: Smoke test live Supabase website endpoint
         env:
           SITE_URL: https://nkigwyxbcshavhjmbuey.supabase.co/functions/v1/pasar-nusa-web
