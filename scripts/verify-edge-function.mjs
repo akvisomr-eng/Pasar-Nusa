@@ -3,8 +3,9 @@ import vm from "node:vm";
 
 const source = readFileSync("supabase/functions/pasar-nusa-web/index.ts", "utf8");
 const start = source.indexOf("const PAGE = ") + "const PAGE = ".length;
-const end = source.indexOf(";\\nDeno.serve", start);
-if (start < "const PAGE = ".length || end < 0) {
+const serve = source.indexOf("Deno.serve", start);
+const end = source.lastIndexOf(";", serve);
+if (start < "const PAGE = ".length || serve < 0 || end < 0) {
   throw new Error("Could not locate the embedded storefront HTML.");
 }
 const html = JSON.parse(source.slice(start, end));
