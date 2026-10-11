@@ -253,3 +253,13 @@ footer{padding-inline:8%}
 .home-products-empty>span{font-size:32px}.home-products-empty strong{color:var(--green);font:700 15px Manrope,sans-serif}.home-products-empty p{margin:6px 0 0;line-height:1.6}.home-products-empty>a{flex:none;color:var(--green2);font-size:11px;font-weight:800}.home-product-notice{margin:-12px 0 18px;padding:11px 14px;border-radius:7px;background:#eef5e6;color:#426743;font-size:11px}
 @media(max-width:760px){.home-products{padding:54px 6%}.home-product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.home-product-visual{min-height:135px}.home-product-info{padding:13px}.home-product-name-row h3{font-size:13px}.home-products-heading{align-items:flex-start}.home-products-empty{align-items:flex-start;flex-wrap:wrap}.home-products-empty>a{margin-left:51px}}
 @media(max-width:480px){.home-products-heading{display:block}.home-products-heading>a{display:inline-block;margin-top:15px}.home-product-grid{grid-template-columns:1fr}.home-product-card{display:grid;grid-template-columns:112px minmax(0,1fr)}.home-product-visual{min-height:100%;padding:12px}.home-product-visual>span{width:62px;height:62px;font-size:34px}.home-product-visual small{left:8px;top:8px;font-size:6px}.home-product-info{padding:12px}.home-product-info>p{min-height:0}.home-products-empty{display:grid;grid-template-columns:34px 1fr;gap:10px}.home-products-empty>a{grid-column:2;margin:0}}
+
+
+/* Release marker: unmistakable storefront revision */
+.storefront-promo{background:#0b2e22!important;color:#f4f8e8!important;border-bottom:3px solid #c9e86b!important;min-height:42px!important}
+.storefront-promo>span:first-child{color:#e1f09a!important;font-size:10px!important;letter-spacing:1.35px!important}
+.storefront-promo>a{padding:7px 12px;border:1px solid #71936d;border-radius:4px;background:#214c35}
+.shop-hero{border-radius:18px!important;box-shadow:0 18px 60px #1b41220d!important}
+.shop-category-card{border-radius:13px!important}
+.shop-category-art{border-radius:9px!important}
+@media(max-width:650px){.storefront-promo{min-height:36px!important}.storefront-promo>span:first-child{display:block!important;font-size:8px!important}.storefront-promo>span:nth-child(2){display:none}}
