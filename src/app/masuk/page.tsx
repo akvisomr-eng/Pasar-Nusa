@@ -14,6 +14,14 @@ export default function AuthPage() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
 
+  async function continueAfterAuthentication(supabase: NonNullable<ReturnType<typeof createClient>>) {
+    // The database function verifies the confirmed account against its trusted allowlist
+    // and refuses bootstrap once a different platform administrator exists.
+    const { data: isInitialAdmin, error: bootstrapError } = await supabase.rpc("bootstrap_platform_admin");
+    router.push(!bootstrapError && isInitialAdmin === true ? "/admin" : "/katalog");
+    router.refresh();
+  }
+
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setMessage("");
@@ -32,16 +40,14 @@ export default function AuthPage() {
         });
         if (error) throw error;
         if (data.session) {
-          router.push("/katalog");
-          router.refresh();
+          await continueAfterAuthentication(supabase);
         } else {
           setMessage("Pendaftaran diterima. Periksa email untuk konfirmasi akun sebelum masuk.");
         }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        router.push("/katalog");
-        router.refresh();
+        await continueAfterAuthentication(supabase);
       }
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Terjadi kesalahan. Silakan coba lagi.");
