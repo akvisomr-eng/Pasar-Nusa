@@ -17,7 +17,7 @@ const benefits = [
 export default function HomePage() {
   return (
     <main className="storefront" data-build="pasar-nusa-storefront-2026-10-11">
-      <div className="storefront-promo"><span>ETALASE DIGITAL NUSANTARA · VERSI TERBARU</span><span>Pasar lokal, peluang nasional <b>✳</b></span><Link href="/katalog">Mulai belanja <span aria-hidden="true">→</span></Link></div>
+      <div className="storefront-promo"><span>PASAR NUSA 2026 · ETALASE BARU</span><span>Pasar lokal, peluang nasional <b>✳</b></span><Link href="/katalog">Mulai belanja <span aria-hidden="true">→</span></Link></div>
       <header className="store-header">
         <Link className="store-logo" href="/" aria-label="Pasar Nusa beranda"><span className="store-logo-mark">P</span><span>pasar<span>nusa</span><small>HASIL NUSANTARA, SATU PASAR</small></span></Link>
         <form className="store-search" action={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/katalog`} method="get"><span aria-hidden="true">⌕</span><input id="store-q" name="q" placeholder="Cari beras, sayur, ikan, rempah..." aria-label="Cari produk"/><button type="submit">Cari produk</button></form>
