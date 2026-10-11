@@ -26,6 +26,7 @@ export default function CatalogPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("newest");
   const [selectedCategory, setSelectedCategory] = useState("Semua");
+  const [cartNotice, setCartNotice] = useState("");
 
   useEffect(() => {
     try { const stored = JSON.parse(localStorage.getItem("pasar-nusa-cart") || "[]") as { quantity: number }[]; setCartCount(stored.reduce((sum, item) => sum + item.quantity, 0)); } catch { setCartCount(0); }
