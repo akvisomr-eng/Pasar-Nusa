@@ -72,7 +72,26 @@ export default function CatalogPage() {
   }, []);
 
   const normalizedQuery = searchQuery.trim().toLocaleLowerCase("id-ID");
+  const productCategory = (product: Product) => {
+    const text = (product.name + " " + product.description + " " + (product.brand ?? "")).toLocaleLowerCase("id-ID");
+    if (/ikan|udang|cumi|kepiting|bandeng|lele|nila|gurami|laut|teri|kerang|rumput laut/.test(text)) return "Perikanan";
+    if (/sayur|buah|cabai|cabe|tomat|wortel|bayam|kangkung|pisang|mangga|jeruk|apel|alpukat|singkong|kentang/.test(text)) return "Sayur & buah";
+    if (/kopi|teh|kakao|cokelat|kelapa|sawit|karet|cengkeh|lada|merica|pala|vanili|rempah|jahe|kunyit|kunir|kencur|kapulaga/.test(text)) return "Perkebunan";
+    return "Pangan & olahan";
+  };
+  const productVisual = (product: Product) => {
+    const text = (product.name + " " + product.description).toLocaleLowerCase("id-ID");
+    if (/ikan|udang|cumi|kepiting|bandeng|lele|nila|gurami|laut|teri|kerang/.test(text)) return "🐟";
+    if (/sayur|bayam|kangkung|wortel|cabai|cabe|tomat|kentang/.test(text)) return "🥬";
+    if (/buah|pisang|mangga|jeruk|apel|alpukat/.test(text)) return "🍊";
+    if (/kopi|teh|kakao|cokelat/.test(text)) return "☕";
+    if (/beras|padi|gabah|jagung|gandum/.test(text)) return "🌾";
+    if (/kelapa|sawit|karet|cengkeh|lada|merica|pala|vanili|rempah|jahe|kunyit|kunir|kencur/.test(text)) return "🌿";
+    return "🧺";
+  };
+  const categories = ["Semua", "Sayur & buah", "Perkebunan", "Perikanan", "Pangan & olahan"];
   const filteredProducts = products
+    .filter(product => selectedCategory === "Semua" || productCategory(product) === selectedCategory)
     .filter(product => !normalizedQuery || normalizedQuery.split(/\s+/).some(term =>
       [product.name, product.description, product.brand ?? "", product.stores?.name ?? ""]
         .some(value => value.toLocaleLowerCase("id-ID").includes(term))
