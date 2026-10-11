@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 const outputDir = "out";
@@ -19,6 +19,19 @@ if (missing.length) {
   process.exit(1);
 }
 
+const faviconFile = join(outputDir, "favicon.svg");
+if (!existsSync(faviconFile) || !statSync(faviconFile).isFile()) {
+  throw new Error("public/favicon.svg tidak ditemukan pada hasil ekspor (out/favicon.svg).");
+}
+
+const configuredBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? process.env.PASAR_NUSA_BASE_PATH ?? "/Pasar-Nusa";
+const basePath = configuredBasePath === "/" ? "" : `/${configuredBasePath.split("/").filter(Boolean).join("/")}`;
+const expectedFaviconPath = `${basePath}/favicon.svg`;
+const homeHtml = readFileSync(join(outputDir, "index.html"), "utf8");
+if (!homeHtml.includes(expectedFaviconPath)) {
+  throw new Error(`Metadata favicon tidak menggunakan path yang benar. Diharapkan: ${expectedFaviconPath}`);
+}
+
 const htmlFiles = [];
 function walk(dir) {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
@@ -35,5 +48,6 @@ if (htmlFiles.length < requiredRoutes.length) {
 
 console.log("Ekspor statis diverifikasi.");
 console.log("Rute wajib:", requiredRoutes.join(", "));
+console.log("Favicon:", expectedFaviconPath);
 console.log("Jumlah berkas HTML:", htmlFiles.length);
 console.log("Berkas root:", readdirSync(outputDir).join(", "));
