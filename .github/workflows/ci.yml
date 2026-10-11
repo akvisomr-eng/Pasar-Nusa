@@ -39,7 +39,7 @@ jobs:
         run: node scripts/verify-static-export.mjs
       - name: Smoke test live Supabase website endpoint
         env:
-          SITE_URL: https://inhryttgapxkfscnjrxc.supabase.co/functions/v1/pasar-nusa-web
+          SITE_URL: https://nkigwyxbcshavhjmbuey.supabase.co/functions/v1/pasar-nusa-web
         run: |
           set -euo pipefail
           response_file="$(mktemp)"
