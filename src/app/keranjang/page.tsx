@@ -7,6 +7,8 @@ import { createClient } from "@/lib/supabase/client";
 
 type CartItem = { product_id: string; quantity: number; name: string; price_idr: number; unit_label: string };
 const CART_KEY = "pasar-nusa-cart";
+const CHECKOUT_ATTEMPT_KEY = "pasar-nusa-checkout-attempt";
+type CheckoutAttempt = { fingerprint: string; key: string };
 const rupiah = (value: number) => new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(value);
 
 export default function CartPage() {
@@ -27,6 +29,29 @@ export default function CartPage() {
 
   const total = useMemo(() => items.reduce((sum, item) => sum + Number(item.price_idr) * item.quantity, 0), [items]);
 
+  function getCheckoutIdempotencyKey(cart: CartItem[], buyerNote: string) {
+    const fingerprint = JSON.stringify({
+      items: cart.map(item => ({ product_id: item.product_id, quantity: item.quantity }))
+        .sort((a, b) => a.product_id.localeCompare(b.product_id)),
+      buyer_note: buyerNote.trim()
+    });
+    const saved = localStorage.getItem(CHECKOUT_ATTEMPT_KEY);
+    if (saved) {
+      try {
+        const attempt = JSON.parse(saved) as CheckoutAttempt;
+        if (attempt.fingerprint === fingerprint && typeof attempt.key === "string" && attempt.key.length >= 8) {
+          return attempt.key;
+        }
+      } catch {
+        // Replace an invalid or outdated local attempt before sending any request.
+      }
+    }
+    const key = crypto.randomUUID();
+    // Persist before the network request so a retry after a timeout uses the same key.
+    localStorage.setItem(CHECKOUT_ATTEMPT_KEY, JSON.stringify({ fingerprint, key } satisfies CheckoutAttempt));
+    return key;
+  }
+
   async function checkout() {
     setMessage("");
     if (items.length === 0) { setMessage("Keranjang masih kosong."); return; }
@@ -37,7 +62,7 @@ export default function CartPage() {
     try {
       const { data: userData, error: userError } = await supabase.auth.getUser();
       if (userError || !userData.user) { router.push("/masuk"); return; }
-      const idempotencyKey = crypto.randomUUID();
+      const idempotencyKey = getCheckoutIdempotencyKey(items, note);
       const { data, error } = await supabase.rpc("checkout_order", {
         p_items: items.map(item => ({ product_id: item.product_id, quantity: item.quantity })),
         p_buyer_note: note.trim(),
@@ -45,6 +70,7 @@ export default function CartPage() {
       });
       if (error) throw error;
       localStorage.removeItem(CART_KEY);
+      localStorage.removeItem(CHECKOUT_ATTEMPT_KEY);
       router.push("/pesanan?id=" + encodeURIComponent(String(data)));
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Pesanan belum dapat dibuat. Periksa stok dan coba lagi.");
