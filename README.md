@@ -45,6 +45,7 @@ Migrations are stored in `supabase/migrations` and were applied to project `nkig
 - `0006_least_privilege_table_grants`
 - `0007_checkout_validation_hardening`
 - `0008_avoid_recursive_order_rls`
+- `0009_owner_admin_bootstrap`
 
 The first account must be registered normally through Supabase Auth. After the trusted owner signs in with `akvisomr@gmail.com`, the narrowly scoped `bootstrap_platform_admin()` database RPC promotes only that authenticated email's own profile. Other accounts receive no elevated role. The RPC is called by the storefront's administrator check and does not accept a user ID or role from the browser.
 
