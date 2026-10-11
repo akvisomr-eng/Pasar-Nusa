@@ -3,7 +3,7 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default [
-  { ignores: [".next/**", "node_modules/**", "next-env.d.ts", "out/**", "build/**"] },
+  { ignores: [".next/**", "node_modules/**", "next-env.d.ts", "out/**", "build/**", "supabase/functions/**"] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
