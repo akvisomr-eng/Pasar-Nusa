@@ -10,7 +10,10 @@ const sharedConfig = {
 const nextConfig: NextConfig = staticExport
   ? {
       ...sharedConfig,
-      output: "export"
+      output: "export",
+      basePath: "/Pasar-Nusa",
+      trailingSlash: true,
+      images: { unoptimized: true }
     }
   : {
       ...sharedConfig,
