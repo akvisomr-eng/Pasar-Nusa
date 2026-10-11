@@ -37,6 +37,17 @@ jobs:
         run: npm run build:static
       - name: Verify exported routes and assets
         run: node scripts/verify-static-export.mjs
+      - name: Smoke test live Supabase website endpoint
+        env:
+          SITE_URL: https://inhryttgapxkfscnjrxc.supabase.co/functions/v1/pasar-nusa-web
+        run: |
+          set -euo pipefail
+          response_file="$(mktemp)"
+          status="$(curl --silent --show-error --location --retry 3 --retry-all-errors --retry-delay 2 --max-time 30 --output "$response_file" --write-out '%{http_code}' "$SITE_URL")"
+          test "$status" = "200"
+          grep -qi 'Pasar Nusa' "$response_file"
+          grep -qi 'Dashboard admin' "$response_file"
+          echo "Live website endpoint returned HTTP $status and expected page markers."
       - name: Upload static build artifact for inspection
         uses: actions/upload-artifact@v4
         with:
