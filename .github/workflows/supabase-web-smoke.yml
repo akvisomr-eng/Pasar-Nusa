@@ -15,19 +15,19 @@ jobs:
   smoke-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Check public storefront endpoint
+      - name: Check canonical storefront endpoint redirects to current GitHub Pages UI
         shell: bash
         run: |
           set -euo pipefail
           BASE="https://nkigwyxbcshavhjmbuey.supabase.co"
           URL="$BASE/functions/v1/pasar-nusa-web"
-          KEY="sb_publishable_DyR4ePgc1QAIid8MDdd7dA_VKjTFnqc"
           curl --fail --silent --show-error --location --retry 5 --retry-delay 3 "$URL" -o /tmp/pasar-nusa.html
           grep -q "Pasar Nusa" /tmp/pasar-nusa.html
-          grep -q "Dashboard admin" /tmp/pasar-nusa.html
-          grep -q "Panel pedagang" /tmp/pasar-nusa.html
+          grep -q "Hasil terbaik" /tmp/pasar-nusa.html
+          grep -q "Jelajahi produk" /tmp/pasar-nusa.html
+          grep -q "Belanja sesuai kebutuhan" /tmp/pasar-nusa.html
           test "$(wc -c < /tmp/pasar-nusa.html)" -gt 3000
-          echo "Public endpoint returned the storefront and marketplace flows."
+          echo "Legacy Supabase URL resolves to the canonical current storefront."
 
       - name: Check public catalog API and reject anonymous writes
         shell: bash
