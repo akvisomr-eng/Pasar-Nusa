@@ -49,7 +49,7 @@ jobs:
           test "$status" = "200"
           grep -qi 'Pasar Nusa' "$response_file"
           grep -qi 'Belanja hasil bumi' "$response_file"
-          grep -qi 'Jelajahi produk' "$response_file"
+          grep -qi 'Mulai belanja' "$response_file"
           echo "Legacy endpoint resolves to the current storefront (HTTP $status)."
       - name: Upload static build artifact for inspection
         uses: actions/upload-artifact@v4
