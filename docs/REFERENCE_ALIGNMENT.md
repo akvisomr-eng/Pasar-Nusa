@@ -1,37 +1,35 @@
 # Pasar-Nusa — Reference Alignment
 
-Status: working alignment record; not a claim that the original reference archive has been fully audited.
+Status: archive inspected; first UI adaptation implemented on branch `feat/admin-dashboard-ux`.
 
-## Agreed source of reference
+## Reference archive inspected
 
-The primary reference is `Ecommerce-Website-With-Admin-Panel-Of-ERP-CRM-main.zip`, previously identified as an e-commerce project with SQL database assets and an administrative panel built with .NET MVC. Pasar-Nusa must use it to guide product flows, admin/operations UX, and relevant ERP/CRM business capabilities.
+The Library archive `Ecommerce-Website-With-Admin-Panel-Of-ERP-CRM-main.zip` contains an ASP.NET MVC admin application, an ASP.NET MVC customer storefront, SQL Server schema/data scripts, and an additional mobile/web folder. The primary admin application is under `E-Commerce-Website/Admin Side/IMS-Project/IMS-Project`; the customer storefront is under `E-Commerce-Website/Client Side/ClientSide-Kahreedo.pk/Kahreedo`.
 
-The archive is a reference for product and workflow decisions. Its implementation must not be copied blindly into the current stack: Pasar-Nusa currently uses Next.js App Router, TypeScript, Supabase PostgreSQL/Auth/RLS/RPC. Reuse or migrate individual modules only after examining the original source and validating fit.
+The admin dashboard view (`Views/Dashboard/Index.cshtml`) presents order lifecycle counts (new, dispatched, shipped, delivered), sales history, top products, orders per day, and sales by country. `DashboardController.cs` queries the latest 10 orders and provides chart data endpoints. The source contains controller/view groups for categories, customers, customer requests and quotations, orders, payments, products, purchases/purchase orders, suppliers, supplier quotations, goods receipt notes, tax, units of measure, employee/login, profile, and settings. The SQL Server script `Database/khareedo.sql` contains 34 table definitions, including customers, products, orders/order details, payments, suppliers, purchase returns, sales returns, quotation/request tables, shipping, reviews, wishlist, tax, and units of measure.
 
-## Current implementation found in the repository
+## Decisions for Pasar-Nusa
 
-| Area | Current evidence | Alignment status |
+The archive guides workflow coverage and information hierarchy, not a blind code or schema transplant. Its SQL Server / ASP.NET MVC implementation is not compatible with the current stack and includes legacy dependencies and domain assumptions that need review. Pasar-Nusa stays on Next.js App Router + TypeScript, Supabase PostgreSQL/Auth/RLS/RPC, and GitHub Actions.
+
+| Reference area | Existing Pasar-Nusa equivalent | Decision |
 |---|---|---|
-| Public storefront | `src/app/page.tsx` | Present; detailed comparison with reference pending |
-| Product catalog | `src/app/katalog/page.tsx` | Present; reads active products from Supabase |
-| Cart and checkout | `src/app/keranjang/page.tsx`, order RPC migrations | Foundation present; must be end-to-end tested |
-| Authentication | `src/app/masuk/page.tsx`, Supabase Auth | Present; redirects and real email flow need testing |
-| Seller operations | `src/app/seller/page.tsx` | Store registration, product draft, stock and order actions present |
-| Platform administration | `src/app/admin/page.tsx` | Store/product moderation present |
-| Orders | `src/app/pesanan/page.tsx`, `src/app/pesanan/[id]/order-detail.tsx` | Buyer order views present; direct-link/static-host behavior requires testing |
-| Database/security | `supabase/migrations/0001` through `0008` | Core marketplace schema, RPC workflows, RLS and restricted grants present |
-| ERP/CRM breadth | No complete module inventory established yet | Must compare with original archive before declaring parity |
-| B2B/cooperative workflows | Product direction is documented; complete workflow parity not established | Needs requirements mapping before implementation |
-| Reports, customer management, purchasing, suppliers, returns, accounting | Not confirmed as implemented from current evidence | Inspect source archive; include only where the original project and Pasar-Nusa requirements justify them |
+| Storefront / product discovery | `src/app/page.tsx`, `src/app/katalog/page.tsx` | Adapt for Indonesian commodities, clear units, source/store trust, and responsive discovery |
+| Customer login | `src/app/masuk/page.tsx` | Keep Supabase Auth; verify real redirects and email confirmation |
+| Cart / checkout | `src/app/keranjang/page.tsx` and transactional RPC migrations | Keep server-authoritative prices, stock reservation and idempotency; end-to-end testing required |
+| Seller operations | `src/app/seller/page.tsx` | Extend toward inventory, fulfillment, repeat buyers, and B2B offers only after schema/security design |
+| Admin dashboard / moderation | `src/app/admin/page.tsx` | Initial responsive dashboard adaptation includes operational KPIs, quick links, search-filtered review queues, and secure RPC moderation |
+| Order lifecycle / sales reporting | `src/app/pesanan`, current order RPCs | Future step: admin-only aggregate metrics and order workflow; no invented payment or revenue figures |
+| Customers / CRM | No complete CRM module confirmed | Define buyer/seller relationship, inquiries, support and consent requirements before schema changes |
+| Supplier / purchasing / goods receipt | No complete procurement module confirmed | Adapt to commodity sourcing and seller-side stock lots only after requirements mapping |
+| Returns / payments / accounting | No complete equivalent confirmed | Defer until refund, payment provider, reconciliation, and audit policies are specified |
+| Quotations / B2B | Not complete | Design request-for-quotation and supplier response workflow as a separate, permissioned milestone |
 
-## Required next steps
+## Current implementation and release guardrails
 
-1. Inspect the actual archive: inventory its folders, project files, SQL scripts, entities, routes/controllers, views, and admin functions.
-2. Build a file/module-level comparison matrix: original module, business purpose, current Pasar-Nusa equivalent, missing behavior, security/data implications, and decision (reuse/adapt/defer).
-3. Preserve the existing private GitHub repository and Supabase project unless evidence justifies a change.
-4. Do not expose service-role/secret keys, make the repository public, or introduce paid services/trials. Rp0 remains the deployment constraint.
-5. Do not describe the system as production-ready or live until core buyer, seller, admin, authorization, and order flows pass end-to-end tests.
-
-## Evidence limitation
-
-The source archive is not present in the current Pasar-Nusa repository tree, and this record does not claim to have opened its original files in this session. The detailed module comparison must be based on the actual archive contents, not guesses from its filename.
+- The first admin UX adaptation is isolated on `feat/admin-dashboard-ux` for CI review before merge.
+- Existing Supabase authorization remains authoritative. Admin UI reads the authenticated profile role and performs store/product moderation through existing RPCs; no browser-side role elevation or service-role key.
+- Dashboard totals are derived from the currently visible status groups queried from Supabase. They are not revenue, GMV, order, customer, or payment metrics.
+- Preserve the private repository and current Supabase project. Do not introduce Cloudflare, Render, paid trials, or new hosting dependencies.
+- Public preview is served by the existing Supabase Edge Function. It is an MVP preview, not a fully verified commercial launch.
+- Do not claim parity with the legacy ERP/CRM. Implement features incrementally, with migrations, RLS/RPC review, tests, and release gates.
