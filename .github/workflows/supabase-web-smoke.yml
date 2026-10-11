@@ -1,0 +1,26 @@
+name: Pasar Nusa Supabase Web Smoke Test
+on:
+  push:
+    branches: [main]
+    paths:
+      - "supabase/functions/pasar-nusa-web/**"
+      - ".github/workflows/supabase-web-smoke.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check public Supabase web endpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          URL="https://nkigwyxbcshavhjmbuey.supabase.co/functions/v1/pasar-nusa-web"
+          curl --fail --silent --show-error --location --retry 5 --retry-delay 3 "$URL" -o /tmp/pasar-nusa.html
+          grep -q "Pasar Nusa" /tmp/pasar-nusa.html
+          grep -q "Dashboard admin" /tmp/pasar-nusa.html
+          test "$(wc -c < /tmp/pasar-nusa.html)" -gt 3000
+          echo "Public endpoint returned the Pasar Nusa storefront and admin entry point."
