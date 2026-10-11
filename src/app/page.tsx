@@ -1,4 +1,5 @@
 import Link from "next/link";
+import HomeProductShelf from "@/components/home-product-shelf";
 
 const categories = [
   { icon: "🥬", title: "Sayur & buah", desc: "Panen segar langsung dari kebun", query: "sayur", tone: "leaf" },
@@ -32,6 +33,8 @@ export default function HomePage() {
       <section className="shop-benefits" aria-label="Keunggulan Pasar Nusa">{benefits.map(item=><div className="shop-benefit" key={item.title}><span className="shop-benefit-icon">{item.icon}</span><div><b>{item.title}</b><p>{item.desc}</p></div></div>)}</section>
 
       <section className="shop-section" id="kategori"><div className="shop-section-head"><div><span className="shop-eyebrow">JELAJAHI PASAR</span><h2>Belanja sesuai kebutuhan</h2><p>Temukan komoditas pilihan dari pelaku usaha Indonesia.</p></div><Link href="/katalog">Lihat semua produk <span>→</span></Link></div><div className="shop-category-grid">{categories.map(item=><Link className={`shop-category-card ${item.tone}`} href={`/katalog?q=${encodeURIComponent(item.query)}`} key={item.title}><span className="shop-category-art" aria-hidden="true">{item.icon}</span><span className="shop-category-arrow">↗</span><b>{item.title}</b><p>{item.desc}</p><span className="shop-category-link">Jelajahi kategori <span>→</span></span></Link>)}</div></section>
+
+      <HomeProductShelf />
 
       <section className="shop-seller-banner"><div className="seller-banner-mark">✳</div><div><span className="shop-eyebrow">UNTUK PETANI, NELAYAN & UMKM</span><h2>Produk lokal layak dikenal lebih luas.</h2><p>Bawa produk dan hasil usaha Anda ke pasar digital yang dirancang untuk tumbuh bersama.</p></div><Link className="shop-primary-btn" href="/seller">Mulai berjualan <span>→</span></Link></section>
 
