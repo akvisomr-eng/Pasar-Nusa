@@ -27,7 +27,8 @@ The archive guides workflow coverage and information hierarchy, not a blind code
 
 ## Current implementation and release guardrails
 
-- The first admin UX adaptation is isolated on `feat/admin-dashboard-ux` for CI review before merge.
+- The admin UX adaptation is merged into `main`; its GitHub Actions validation passed (type check, lint, production build, static export checks, embedded JavaScript syntax, and Supabase endpoint smoke test).
+- The Supabase Edge Function `pasar-nusa-web` was redeployed as version 9 with the upgraded responsive admin panel; its existing public-page setting (`verify_jwt=false`) is retained because this endpoint serves the public HTML shell. Authenticated data access and moderation continue to rely on Supabase Auth/RLS/RPC.
 - Existing Supabase authorization remains authoritative. Admin UI reads the authenticated profile role and performs store/product moderation through existing RPCs; no browser-side role elevation or service-role key.
 - Dashboard totals are derived from the currently visible status groups queried from Supabase. They are not revenue, GMV, order, customer, or payment metrics.
 - Preserve the private repository and current Supabase project. Do not introduce Cloudflare, Render, paid trials, or new hosting dependencies.
