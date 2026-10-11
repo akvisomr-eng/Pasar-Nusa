@@ -24,7 +24,7 @@ export default function HomePage() {
       <div className="pn-wrap pn-page">
         <div className="pn-breadcrumb"><span>Beranda</span><b>/</b><span>Marketplace Nusantara</span></div>
         <section className="pn-hero-layout">
-          <aside className="pn-category-menu"><h2>Jelajahi kategori</h2>{categories.map((item,index)=><Link key={item.title} href={`/katalog?q=${encodeURIComponent(item.query)}`}><span className={`pn-menu-icon ${item.tone}`}>{item.icon}</span><span>{item.title}<small>{item.detail}</small></span><b>›</b></Link>)}<Link className="pn-all-categories" href="/katalog">Lihat semua kategori <span>→</span></Link></aside>
+          <aside className="pn-category-menu"><h2>Jelajahi kategori</h2>{categories.map((item)=><Link key={item.title} href={`/katalog?q=${encodeURIComponent(item.query)}`}><span className={`pn-menu-icon ${item.tone}`}>{item.icon}</span><span>{item.title}<small>{item.detail}</small></span><b>›</b></Link>)}<Link className="pn-all-categories" href="/katalog">Lihat semua kategori <span>→</span></Link></aside>
           <div className="pn-hero-stack">
             <section className="pn-hero-banner">
               <div className="pn-hero-copy"><span className="pn-label"><i/> PASAR LOKAL, PELUANG NASIONAL</span><h1>Belanja hasil bumi<br/>jadi <em>lebih mudah.</em></h1><p>Temukan hasil pertanian, perkebunan, perikanan, dan produk UMKM dari pelaku usaha Indonesia.</p><div className="pn-hero-buttons"><Link className="pn-btn-red" href="/katalog">Mulai belanja <span>→</span></Link><Link className="pn-text-link" href="/seller">Saya ingin berjualan ↗</Link></div><div className="pn-hero-trust"><span>✓ Harga dan satuan jelas</span><span>✓ Dukung usaha lokal</span></div></div>
