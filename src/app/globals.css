@@ -80,3 +80,29 @@ footer{padding-inline:8%}
 @media(max-width:900px){.hero{padding:55px 6%;gap:3%}.hero-art{min-height:330px}.trust-strip{padding:20px 5%}.trust-strip div{padding-inline:13px}.section{padding:64px 6%}.category-grid{gap:12px}.category-icon{height:125px}}
 @media(max-width:620px){.hero{grid-template-columns:1fr;padding:43px 6% 32px;gap:22px}.hero h1{font-size:clamp(42px,11vw,53px);letter-spacing:-2.5px}.hero-copy>p{font-size:12px}.hero-art{min-height:285px;border-radius:40% 40% 14px 14px}.hero-illustration{width:112%;left:-6%;bottom:-3%}.hero-art-tag{top:18px;left:17px;font-size:7px}.hero-art-caption{left:12px;right:12px;bottom:12px;padding:11px 12px}.hero-art-caption strong{font-size:10px}.hero-art-caption small{font-size:8px}.trust-strip{grid-template-columns:1fr;padding:17px 7%;gap:14px}.trust-strip div{padding:0 0 0 13px}.trust-strip strong{font-size:11px}.trust-strip span{font-size:10px}.section{padding:52px 6%}.section-heading{display:block}.section-heading>p{margin-top:12px}.category-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.category-card{padding-bottom:15px;min-height:0}.category-icon{height:105px;margin-bottom:13px;font-size:39px}.category-title,.category-desc{margin-left:13px;margin-right:13px}.category-title{font-size:12px}.category-desc{font-size:9px;min-height:42px}.category-card .arrow{right:13px;bottom:13px}.seller-section{grid-template-columns:1fr;padding:48px 7%;gap:22px}.seller-section h2{font-size:33px}.seller-graphic{min-height:220px}.principles ul{grid-template-columns:1fr}.cta{padding:53px 7%}footer{padding:24px 6%;flex-wrap:wrap}footer>span:last-child{width:100%}}
 @media(prefers-reduced-motion:reduce){.category-card,.category-icon{transition:none}}
+
+/* Marketplace template adaptation: responsive product cards and quick category filters */
+.catalog-category-filters{display:flex;gap:9px;flex-wrap:wrap;margin:0 0 25px}
+.category-filter{border:1px solid #dce5d7;border-radius:999px;background:#fff;color:#506257;padding:10px 15px;font:600 11px 'DM Sans',sans-serif;cursor:pointer;transition:background .18s,border-color .18s,color .18s}
+.category-filter:hover{border-color:#91b49a;color:var(--green2)}
+.category-filter.active{background:var(--green);border-color:var(--green);color:#fff}
+.cart-feedback{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 20px;padding:12px 15px;border:1px solid #d5e5ca;border-radius:9px;background:#f0f6e8;color:#345d3b;font-size:12px}
+.cart-feedback>span{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#dcebcf;font-weight:800}
+.cart-feedback a{margin-left:auto;font-weight:800;color:var(--green2)}
+.product-card{display:flex;flex-direction:column;min-width:0;transition:transform .18s,border-color .18s,box-shadow .18s}
+.product-card:hover{transform:translateY(-3px);border-color:#c9d9c3;box-shadow:0 12px 30px #173b2810}
+.product-visual{position:relative;display:grid;place-items:center;min-height:178px;overflow:hidden;background:radial-gradient(circle at 50% 45%,#fffdf5 0,#f0f4e4 53%,#e4ecd5 100%)}
+.product-visual:before,.product-visual:after{content:"";position:absolute;border:1px solid #d6e2c8;border-radius:50%;width:170px;height:170px;opacity:.6}
+.product-visual:after{width:125px;height:125px}
+.product-visual-mark{position:relative;z-index:1;display:grid;place-items:center;width:92px;height:92px;border-radius:50%;background:#fff;box-shadow:0 12px 30px #1b432112;font-size:48px}
+.product-category-pill{position:absolute;left:13px;top:13px;z-index:2;padding:6px 9px;border:1px solid #e1e9d9;border-radius:999px;background:#ffffffdb;color:#45654a;font-size:9px;font-weight:800}
+.product-info{display:flex;flex:1;flex-direction:column;align-items:flex-start}
+.product-info h3{line-height:1.45;overflow-wrap:anywhere}
+.product-description{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;min-height:52px}
+.product-price-row{width:100%;margin-top:auto;padding-top:13px;border-top:1px solid #edf0e8}
+.product-price-row strong{display:block;margin:0;font:800 16px Manrope,sans-serif;color:var(--green)}
+.product-price-row small{font-size:10px;color:var(--muted);font-weight:500}
+.add-cart{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:13px;min-height:40px;border:1px solid #dce8cf}
+.add-cart span{font-size:16px;line-height:1}
+@media(max-width:760px){.catalog-category-filters{gap:7px;margin-bottom:20px}.category-filter{padding:9px 12px;font-size:10px}.product-visual{min-height:145px}.product-visual-mark{width:76px;height:76px;font-size:40px}}
+@media(max-width:480px){.product-visual{min-height:155px}.product-info{padding:15px}.cart-feedback{align-items:flex-start}.cart-feedback a{margin-left:0;width:100%}}
