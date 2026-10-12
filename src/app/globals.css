@@ -738,3 +738,47 @@ button,input,select,textarea{font-family:inherit}
 .pn-market.catalog-page .catalog-state .button-outline{border-color:#cbd7c7!important;background:#fff!important;color:#173e32!important}
 .pn-market.catalog-page .catalog-state .button-outline:hover{background:#edf2e5!important}
 .pn-market.catalog-page .pn-footer{border-color:#e2e9d9!important;background:#fff!important}
+
+
+/* Global design-system alignment: retire legacy red/pink styling on secondary routes. */
+.auth-page{--green:#173e32;--green2:#2f6b4f;--lime:#d8f078;--ink:#202b24;--muted:#718078;--paper:#fbfaf5;--line:#e6e9e1;background:#fbfaf5!important;color:#202b24!important}
+.auth-page .auth-panel{background:#fbfaf5!important}
+.auth-page .brand-mark{background:#173e32!important;color:#d8f078!important;border-radius:12px!important}
+.auth-page .brand-accent{color:#4c946a!important}
+.auth-page .brand small{color:#718078!important}
+.auth-page .auth-heading h1{font-family:Manrope,sans-serif!important;color:#173e32!important}
+.auth-page .auth-heading p{color:#718078!important}
+.auth-page .auth-tabs{border-radius:9px!important;background:#edf2e5!important}
+.auth-page .auth-tabs button{border-radius:6px!important}
+.auth-page .auth-tabs button.active{color:#173e32!important;box-shadow:0 2px 8px #1d38230b!important}
+.auth-page .auth-form input,.auth-page .auth-form select,.auth-page .auth-form textarea{border-radius:7px!important;border-color:#dce4da!important}
+.auth-page .auth-form input:focus,.auth-page .auth-form select:focus,.auth-page .auth-form textarea:focus{border-color:#91b49a!important;outline:0;box-shadow:0 0 0 3px #e5efdf!important}
+.auth-page .auth-form button,.auth-page .auth-submit{border-radius:8px!important;background:#173e32!important;border-color:#173e32!important;color:#fff!important}
+.auth-page .auth-form button:hover,.auth-page .auth-submit:hover{background:#245642!important}
+.auth-page .back-link{color:#2f6b4f!important}
+.auth-page .auth-aside{background:#173e32!important}
+.auth-page .auth-aside .eyebrow{color:#d8f078!important}
+.auth-page .auth-aside h2{font-family:Manrope,sans-serif!important}
+.auth-page .auth-aside-note strong{color:#d8f078!important}
+.auth-page .auth-message{border:1px solid #d5e5ca!important;background:#f0f6e8!important;color:#173e32!important}
+.catalog-page:not(.pn-market){--green:#173e32;--green2:#2f6b4f;--lime:#d8f078;background:#fbfaf5!important;color:#202b24!important}
+.catalog-page:not(.pn-market) .catalog-hero{background:linear-gradient(112deg,#edf2e5 0%,#f2f3e9 54%,#e3ead6 100%)!important;border:1px solid #e2e9d9!important;border-radius:16px!important;color:#173e32!important}
+.catalog-page:not(.pn-market) .catalog-hero .eyebrow,.catalog-page:not(.pn-market) .catalog-hero h1 em{color:#2f6b4f!important}
+.catalog-page:not(.pn-market) .catalog-hero h1{color:#173e32!important}
+.catalog-page:not(.pn-market) .button-dark,.catalog-page:not(.pn-market) .checkout-button{background:#173e32!important;border-color:#173e32!important;color:#fff!important;border-radius:8px!important}
+.catalog-page:not(.pn-market) .button-dark:hover,.catalog-page:not(.pn-market) .checkout-button:hover{background:#245642!important}
+.catalog-page:not(.pn-market) .button-outline{border-radius:8px!important}
+.catalog-page:not(.pn-market) .topbar .brand-mark{background:#173e32!important;color:#d8f078!important;border-radius:12px!important}
+.catalog-page:not(.pn-market) .topbar .brand-accent{color:#4c946a!important}
+.catalog-page:not(.pn-market) .catalog-state{border-color:#e2e9d9!important;background:#f4f6ee!important;border-radius:12px!important}
+.catalog-page:not(.pn-market) .checkout-card,.catalog-page:not(.pn-market) .cart-items{border-radius:12px!important;box-shadow:none!important;border-color:#e2e9d9!important}
+.seller-page{--green:#173e32;--green2:#2f6b4f;--lime:#d8f078;background:#fbfaf5!important;color:#202b24!important}
+.seller-page .seller-hero{background:linear-gradient(112deg,#edf2e5 0%,#f2f3e9 54%,#e3ead6 100%)!important;border:1px solid #e2e9d9!important;border-radius:16px!important;color:#173e32!important}
+.seller-page .seller-hero .eyebrow,.seller-page .seller-hero h1 em{color:#2f6b4f!important}
+.seller-page .seller-hero h1{color:#173e32!important}
+.seller-page .topbar .brand-mark{background:#173e32!important;color:#d8f078!important;border-radius:12px!important}
+.seller-page .topbar .brand-accent{color:#4c946a!important}
+.seller-page .button-dark,.seller-page .seller-form button{background:#173e32!important;border-color:#173e32!important;color:#fff!important;border-radius:8px!important}
+.seller-page .button-dark:hover,.seller-page .seller-form button:hover{background:#245642!important}
+.seller-page .seller-form-card,.seller-page .seller-list-card,.seller-page .seller-overview{border-radius:12px!important;box-shadow:none!important;border-color:#e2e9d9!important}
+.seller-page .seller-message,.seller-page .review-notice{border-color:#d5e5ca!important;background:#f0f6e8!important;color:#173e32!important}
