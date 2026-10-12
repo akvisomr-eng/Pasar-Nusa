@@ -1,0 +1,68 @@
+name: Pasar Nusa — Multi-agent Patrol
+
+on:
+  schedule:
+    - cron: "17 2 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "supabase/migrations/**"
+      - "scripts/agent-patrol.mjs"
+      - "public/robots.txt"
+      - "public/sitemap.xml"
+      - ".github/workflows/agent-patrol.yml"
+      - "package.json"
+      - "package-lock.json"
+
+concurrency:
+  group: pasar-nusa-agent-patrol-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  patrol:
+    name: Security, QA and SEO agents
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Prepare report folder
+        run: mkdir -p reports
+      - name: Audit dependency vulnerabilities
+        run: npm audit --json > reports/npm-audit.json || true
+      - name: TypeScript validation
+        run: npm run typecheck
+      - name: Lint source
+        run: npm run lint
+      - name: Build static storefront
+        run: npm run build:static
+        env:
+          NEXT_PUBLIC_BASE_PATH: /Pasar-Nusa
+          PASAR_NUSA_BASE_PATH: /Pasar-Nusa
+          PASAR_NUSA_STATIC_EXPORT: "1"
+          NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+      - name: Verify exported routes
+        run: node scripts/verify-static-export.mjs
+      - name: Run Security, QA, SEO and Design agents
+        run: node scripts/agent-patrol.mjs
+      - name: Publish patrol report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pasar-nusa-agent-patrol-${{ github.run_number }}
+          path: reports/
+          if-no-files-found: warn
+          retention-days: 30
