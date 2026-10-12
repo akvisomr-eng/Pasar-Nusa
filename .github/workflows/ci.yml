@@ -26,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Dependency audit (report only)
-        run: npm audit --json || true
+        run: mkdir -p reports && npm audit --json > reports/npm-audit.json || true
       - name: Type check
         run: npm run typecheck
       - name: Lint
@@ -39,6 +39,8 @@ jobs:
         run: node scripts/verify-static-export.mjs
       - name: Verify embedded storefront JavaScript
         run: npm run verify:edge
+      - name: Run multi-agent security, QA, SEO and design patrol
+        run: npm run agent:patrol
       - name: Smoke test live Supabase website endpoint
         env:
           SITE_URL: https://nkigwyxbcshavhjmbuey.supabase.co/functions/v1/pasar-nusa-web
@@ -56,3 +58,11 @@ jobs:
           path: out/
           if-no-files-found: error
           retention-days: 7
+      - name: Upload multi-agent patrol report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pasar-nusa-agent-patrol-ci
+          path: reports/
+          if-no-files-found: warn
+          retention-days: 30
