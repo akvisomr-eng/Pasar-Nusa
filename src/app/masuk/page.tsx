@@ -43,7 +43,7 @@ export default function AuthPage() {
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
-          options: { data: { display_name: name.trim() }, emailRedirectTo: window.location.origin + window.location.pathname + "?role=" + (sellerIntent ? "pedagang" : "pembeli") }
+          options: { data: { display_name: name.trim() } }
         });
         if (error) throw error;
         if (data.session) {
