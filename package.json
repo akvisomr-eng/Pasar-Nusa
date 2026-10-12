@@ -12,7 +12,8 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "build:static": "node scripts/build-static.mjs",
-    "verify:edge": "node scripts/verify-edge-function.mjs"
+    "verify:edge": "node scripts/verify-edge-function.mjs",
+    "agent:patrol": "node scripts/agent-patrol.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.7.0",
