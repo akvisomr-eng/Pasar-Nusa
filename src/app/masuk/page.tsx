@@ -1,13 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 export default function AuthPage() {
   const router = useRouter();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [sellerIntent, setSellerIntent] = useState(false);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const intent = params.get("role") === "pedagang";
+    setSellerIntent(intent);
+    if (params.get("mode") === "signup" || intent) setMode("signup");
+  }, []);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +25,7 @@ export default function AuthPage() {
     // The database function verifies the confirmed account against its trusted allowlist
     // and refuses bootstrap once a different platform administrator exists.
     const { data: isInitialAdmin, error: bootstrapError } = await supabase.rpc("bootstrap_platform_admin");
-    router.push(!bootstrapError && isInitialAdmin === true ? "/admin" : "/katalog");
+    router.push(!bootstrapError && isInitialAdmin === true ? "/admin" : sellerIntent ? "/seller" : "/katalog");
     router.refresh();
   }
 
@@ -36,13 +43,13 @@ export default function AuthPage() {
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
-          options: { data: { display_name: name.trim() } }
+          options: { data: { display_name: name.trim() }, emailRedirectTo: window.location.origin + window.location.pathname + "?role=" + (sellerIntent ? "pedagang" : "pembeli") }
         });
         if (error) throw error;
         if (data.session) {
           await continueAfterAuthentication(supabase);
         } else {
-          setMessage("Pendaftaran diterima. Periksa email untuk konfirmasi akun sebelum masuk.");
+          setMessage(sellerIntent ? "Pendaftaran akun pedagang diterima. Periksa email untuk konfirmasi akun. Setelah terverifikasi, masuk kembali untuk mendaftarkan toko." : "Pendaftaran diterima. Periksa email untuk konfirmasi akun sebelum masuk.");
         }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -58,8 +65,8 @@ export default function AuthPage() {
 
   return <main className="auth-page">
     <div className="auth-panel">
-      <Link className="brand" href="/"><span className="brand-mark">P</span><span>pasar<span className="brand-accent">nusa</span><small>Pedagang Ecer, Pelayanan Sultan.</small></span></Link>
-      <div className="auth-heading"><span className="eyebrow">SELAMAT DATANG</span><h1>{mode === "signin" ? "Senang bertemu lagi." : "Mari tumbuh bersama."}</h1><p>{mode === "signin" ? "Masuk untuk melanjutkan perjalanan dagang Anda." : "Buat akun untuk memulai di Pasar-Nusa."}</p></div>
+      <Link className="brand" href="/"><span className="brand-mark">P</span><span>pasar<span className="brand-accent">nusa</span><small>Pasar digital komoditas Indonesia</small></span></Link>
+      <div className="auth-heading"><span className="eyebrow">SELAMAT DATANG</span><h1>{mode === "signin" ? "Senang bertemu lagi." : "Mari tumbuh bersama."}</h1><p>{mode === "signin" ? "Masuk untuk melanjutkan perjalanan dagang Anda." : "Buat akun untuk mulai berjualan atau berbelanja di Pasar Nusa."}</p></div>
       <div className="auth-tabs"><button type="button" className={mode === "signin" ? "active" : ""} onClick={() => {setMode("signin");setMessage("");}}>Masuk</button><button type="button" className={mode === "signup" ? "active" : ""} onClick={() => {setMode("signup");setMessage("");}}>Daftar</button></div>
       <form className="auth-form" onSubmit={submit}>
         {mode === "signup" && <label>Nama tampilan<input autoComplete="name" value={name} onChange={e=>setName(e.target.value)} required minLength={1} maxLength={120} placeholder="Nama Anda" /></label>}
@@ -68,7 +75,7 @@ export default function AuthPage() {
         <button className="button auth-submit" type="submit" disabled={busy}>{busy ? "Memproses..." : mode === "signin" ? "Masuk ke akun" : "Buat akun"} <span>→</span></button>
       </form>
       {message && <p className="auth-message" role="status">{message}</p>}
-      <p className="auth-footnote">Dengan melanjutkan, Anda setuju menggunakan layanan secara jujur dan menjaga keamanan akun.</p>
+      <p className="auth-footnote">{sellerIntent ? "Setelah membuat akun, lanjutkan dengan mengisi profil toko, lalu tambahkan produk dan stok. Toko dan produk ditinjau admin sebelum tayang." : "Dengan melanjutkan, Anda setuju menggunakan layanan secara jujur dan menjaga keamanan akun."}</p>
       <Link className="back-link" href="/">← Kembali ke beranda</Link>
     </div>
     <aside className="auth-aside"><span className="eyebrow">PASAR-NUSA</span><h2>Ekosistem dagang yang tumbuh dari kepercayaan.</h2><p>Informasi jelas, stok terkonfirmasi, dan transaksi dengan alur yang dapat ditelusuri.</p><div className="auth-aside-note">Pedagang Ecer,<br/><strong>Pelayanan Sultan.</strong></div></aside>
