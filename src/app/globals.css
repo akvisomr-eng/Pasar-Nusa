@@ -704,3 +704,37 @@ button,input,select,textarea{font-family:inherit}
 .pn-market.catalog-page .pn-footer{margin-top:0}
 @media(max-width:1000px){.pn-market.catalog-page .product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.pn-market.catalog-page .catalog-hero:after{right:4%;width:120px;height:120px}}
 @media(max-width:650px){.pn-market.catalog-page .catalog-hero{width:calc(100% - 32px);margin-top:16px;padding:26px 22px;border-radius:14px!important}.pn-market.catalog-page .catalog-hero:after{right:-25px;width:95px;height:95px}.pn-market.catalog-page .catalog-hero h1{font-size:31px;letter-spacing:-1.3px}.pn-market.catalog-page .catalog-content{width:calc(100% - 32px);padding:27px 0 44px}.pn-market.catalog-page .catalog-toolbar{align-items:stretch;flex-direction:column}.pn-market.catalog-page .catalog-search-field{max-width:none}.pn-market.catalog-page .catalog-sort{justify-content:space-between}.pn-market.catalog-page .catalog-sort select{max-width:none}.pn-market.catalog-page .catalog-category-filters{gap:7px;margin-bottom:23px}.pn-market.catalog-page .category-filter{padding:0 11px;font-size:9px}.pn-market.catalog-page .catalog-heading h2{font-size:19px}.pn-market.catalog-page .product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.pn-market.catalog-page .product-visual{min-height:110px}.pn-market.catalog-page .product-visual-mark{width:58px;height:58px;font-size:29px}.pn-market.catalog-page .product-info{padding:10px}.pn-market.catalog-page .product-info h3{font-size:11px}.pn-market.catalog-page .product-description{font-size:9px}.pn-market.catalog-page .product-price-row strong{font-size:12px}.pn-market.catalog-page .add-cart{font-size:9px}.pn-market.catalog-page .pn-footer-main{gap:14px}}
+
+
+/* Final brand-token guard: all catalog controls must use the same green identity as the home page. */
+.pn-market.catalog-page,
+.pn-market.catalog-page .catalog-hero,
+.pn-market.catalog-page .catalog-content{--catalog-brand:#173e32;--catalog-accent:#2f6b4f;--catalog-soft:#edf2e5;--catalog-border:#e2e9d9}
+.pn-market.catalog-page .catalog-hero{background:linear-gradient(112deg,#edf2e5 0%,#f2f3e9 54%,#e3ead6 100%)!important;border:1px solid #e2e9d9!important;color:#202b24!important;border-radius:16px!important}
+.pn-market.catalog-page .catalog-hero .eyebrow,
+.pn-market.catalog-page .catalog-hero h1 em{color:#2f6b4f!important}
+.pn-market.catalog-page .catalog-hero h1{color:#173e32!important}
+.pn-market.catalog-page .catalog-hero p{color:#718078!important}
+.pn-market.catalog-page .catalog-hero:after{background:#ffffff75!important;box-shadow:0 0 0 15px #ffffff2a!important}
+.pn-market.catalog-page .catalog-search-field:focus-within{border-color:#91b49a!important;box-shadow:0 0 0 3px #e5efdf!important}
+.pn-market.catalog-page .catalog-sort,
+.pn-market.catalog-page .catalog-sort select{color:#173e32!important}
+.pn-market.catalog-page .category-filter,
+.pn-market.catalog-page .category-filter:not(.active){border:1px solid #dce5d7!important;background:#fff!important;color:#506257!important}
+.pn-market.catalog-page .category-filter:hover{border-color:#91b49a!important;color:#2f6b4f!important}
+.pn-market.catalog-page .category-filter.active{border-color:#173e32!important;background:#173e32!important;color:#fff!important}
+.pn-market.catalog-page .catalog-heading h2{color:#173e32!important}
+.pn-market.catalog-page .product-card{border-color:#e2e9d9!important;background:#fff!important}
+.pn-market.catalog-page .product-visual{background:radial-gradient(circle at 50% 45%,#fffdf5 0,#f0f4e4 53%,#e4ecd5 100%)!important}
+.pn-market.catalog-page .product-category-pill,
+.pn-market.catalog-page .product-store{color:#2f6b4f!important}
+.pn-market.catalog-page .product-card h3{color:#202b24!important}
+.pn-market.catalog-page .product-price-row strong{color:#173e32!important}
+.pn-market.catalog-page .add-cart{border:1px solid #173e32!important;border-radius:7px!important;background:#173e32!important;color:#fff!important}
+.pn-market.catalog-page .add-cart:hover{border-color:#245642!important;background:#245642!important;color:#fff!important}
+.pn-market.catalog-page .cart-feedback{border-color:#d5e5ca!important;background:#f0f6e8!important;color:#173e32!important}
+.pn-market.catalog-page .catalog-state{border-color:#e2e9d9!important;background:#f4f6ee!important;color:#173e32!important}
+.pn-market.catalog-page .catalog-state p{color:#718078!important}
+.pn-market.catalog-page .catalog-state .button-outline{border-color:#cbd7c7!important;background:#fff!important;color:#173e32!important}
+.pn-market.catalog-page .catalog-state .button-outline:hover{background:#edf2e5!important}
+.pn-market.catalog-page .pn-footer{border-color:#e2e9d9!important;background:#fff!important}
