@@ -908,3 +908,24 @@ button,input,select,textarea{font-family:inherit}
 .admin-module-links a{display:flex;align-items:center;justify-content:space-between;gap:14px;flex:1;min-width:160px;padding:13px 15px;border:1px solid #e3e9df;border-radius:9px;background:#fff;color:#234735;font-size:11px;font-weight:700}
 .admin-module-links a span{font-size:16px}
 @media(max-width:650px){.admin-erp-overview{padding:15px}.admin-erp-overview .admin-section-heading h2{font-size:20px}.admin-module-links a{min-width:100%}}
+
+
+/* Explicit buyer / merchant registration choice */
+.seller-signup-callout{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 12px;align-items:start;margin:20px 0 4px;padding:15px;border:1px solid #dce7d5;border-radius:10px;background:#f7f9f1}
+.seller-signup-icon{display:grid;place-items:center;width:35px;height:35px;border-radius:9px;background:#e5eedb;color:var(--green);font-size:18px}
+.seller-signup-callout>div strong{display:block;color:var(--green);font-size:12px}
+.seller-signup-callout>div p{margin:5px 0 0;color:var(--muted);font-size:10px;line-height:1.6}
+.seller-signup-callout>button{grid-column:2;justify-self:start;border:0;padding:0;background:transparent;color:var(--green2);font:800 11px 'DM Sans',sans-serif;cursor:pointer;text-align:left}
+.signup-role-picker{margin:24px 0 21px;padding:18px;border:1px solid #e1e8dc;border-radius:11px;background:#fbfcf8}
+.signup-role-picker h2{margin:8px 0 14px;color:var(--green);font:800 17px/1.3 Manrope,sans-serif;letter-spacing:-.4px}
+.signup-role-options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.signup-role-options>button{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:9px;min-width:0;padding:12px 10px;border:1px solid #dfe6db;border-radius:9px;background:#fff;text-align:left;cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s}
+.signup-role-options>button.selected{border-color:#4c805b;background:#f0f5e9;box-shadow:0 0 0 1px #4c805b30}
+.signup-role-icon{display:grid;place-items:center;width:35px;height:35px;border-radius:8px;background:#edf2e7;font-size:19px}
+.signup-role-options strong,.signup-role-options small{display:block}
+.signup-role-options strong{color:var(--green);font-size:11px}
+.signup-role-options small{margin-top:4px;color:var(--muted);font-size:9px;line-height:1.45}
+.signup-role-check{display:grid;place-items:center;width:17px;height:17px;border:1px solid #cfd9ca;border-radius:50%;color:#fff;font-size:10px}
+.signup-role-options>button.selected .signup-role-check{border-color:var(--green2);background:var(--green2)}
+.signup-role-hint{margin:12px 0 0;color:var(--muted);font-size:10px;line-height:1.6}
+@media(max-width:520px){.signup-role-picker{padding:13px}.signup-role-options{grid-template-columns:1fr}.signup-role-options>button{padding:10px}.seller-signup-callout{padding:13px}}
