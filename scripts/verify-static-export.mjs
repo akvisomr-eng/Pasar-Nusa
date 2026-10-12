@@ -6,7 +6,7 @@ if (!existsSync(outputDir) || !statSync(outputDir).isDirectory()) {
   throw new Error("Direktori out/ tidak ditemukan. Ekspor statis belum menghasilkan artefak.");
 }
 
-const requiredRoutes = ["index", "katalog", "keranjang", "masuk", "seller", "admin", "pesanan"];
+const requiredRoutes = ["index", "katalog", "keranjang", "masuk", "seller", "admin", "pesanan", "studio"];
 const missing = requiredRoutes.filter((route) => {
   const flat = join(outputDir, route === "index" ? "index.html" : `${route}.html`);
   const nested = join(outputDir, route, "index.html");
