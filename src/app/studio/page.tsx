@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type CSSProperties } from "react";
 
 type PackageShape = "pouch" | "bottle" | "jar";
 
@@ -92,7 +92,7 @@ export default function ProductStudioPage() {
           <section className="pn-studio-preview" aria-label="Pratinjau desain produk">
             <div className="pn-preview-top"><div><span className="pn-section-kicker">LIVE PREVIEW</span><h2>Konsep kemasan</h2></div><span className="pn-preview-badge">KONSEP</span></div>
             <div className="pn-preview-stage">
-              <div className={"pn-package pn-package-"+shape} style={{"--package-color":color,"--package-accent":accent} as React.CSSProperties}>
+              <div className={"pn-package pn-package-"+shape} style={{"--package-color":color,"--package-accent":accent} as CSSProperties}>
                 <div className="pn-package-side"></div><div className="pn-package-face"><div className="pn-package-seal">✳</div><small>{brand || "NAMA MEREK"}</small><div className="pn-package-rule"></div><strong>{product || "Nama Produk"}</strong><p>{subtitle || "Deskripsi singkat produk"}</p><span>HASIL PILIHAN NUSANTARA</span></div>
               </div>
               <div className="pn-preview-shadow"></div>
