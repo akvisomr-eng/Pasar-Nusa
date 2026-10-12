@@ -109,6 +109,18 @@ jobs:
           }
           verify_url "$SITE_URL" "GitHub Pages"
 
+          CATALOG_URL="${SITE_URL%/}/katalog/"
+          if ! curl --fail --silent --show-error --location --max-time 30 "$CATALOG_URL" -o /tmp/pasar-nusa-catalog.html; then
+            echo "::error::GitHub Pages catalog route is not reachable: $CATALOG_URL"
+            exit 1
+          fi
+          grep -q 'data-build="pasar-nusa-shared-storefront-2026-10-12"' /tmp/pasar-nusa-catalog.html
+          if grep -Eqi 'href=["\x27]https?://(localhost|127\\.0\\.0\\.1)(:[0-9]+)?' /tmp/pasar-nusa-live.html /tmp/pasar-nusa-catalog.html; then
+            echo "::error::Published pages contain a localhost link."
+            exit 1
+          fi
+          echo "Verified catalog route and checked homepage/catalog for localhost links."
+
           FAVICON_URL="${SITE_URL%/}/favicon.svg"
           attempt=1
           while [ "$attempt" -le 12 ]; do
