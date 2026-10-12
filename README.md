@@ -14,6 +14,19 @@ Pasar-Nusa is a multi-commodity marketplace foundation designed to grow into sel
 - PostgreSQL RLS and least-privilege table/function grants.
 - GitHub Actions CI for type check, lint, and production build.
 
+
+
+## Multi-agent automation and Product Studio
+
+- Scheduled GitHub Actions patrol for security, QA, SEO technical checks, and product-design route verification.
+- Security patrol checks core-table RLS declarations, client-side secret patterns, and dependency audit severity.
+- SEO foundation includes `robots.txt` and `sitemap.xml` for the GitHub Pages domain.
+- Product Studio at `/studio/` exports a configurable 2D SVG packaging concept and displays a stylized 3D preview.
+- AR/VR/XR, production-ready 3D mesh export, persistent agent telemetry, and LLM-based generation are **not yet active**. The current patrol is deterministic/rule-based, not a claim of autonomous LLM reasoning.
+- Workflow reports are stored as GitHub Actions artifacts. Critical changes remain subject to CI and human review.
+
+See [Multi-Agent AI roadmap](docs/MULTI_AGENT_AI_ROADMAP.md) for agent responsibilities, SEO tiers, current limits, and the next implementation phases.
+
 ## Important operational constraints
 - The platform does not silently substitute sellers or products.
 - Checkout revalidates active product/store state and stock on the server.
