@@ -41,7 +41,7 @@ export default function HomePage() {
         <div className="pn-wrap pn-main-nav-inner">
           <Link className="pn-nav-all" href="/katalog">☷ <span>Jelajahi pasar</span></Link>
           {categories.map((item) => <Link key={item.title} href={"/katalog?q=" + encodeURIComponent(item.query)}>{item.title}</Link>)}
-          <Link className="pn-nav-seller" href="/seller">Untuk penjual <span>↗</span></Link>
+          <Link href="/studio">Studio produk <span>✳</span></Link><Link className="pn-nav-seller" href="/seller">Untuk penjual <span>↗</span></Link>
         </div>
       </nav>
 
@@ -99,7 +99,7 @@ export default function HomePage() {
         <div className="pn-wrap pn-footer-main">
           <Link className="pn-logo pn-footer-logo" href="/"><span className="pn-logo-icon">N</span><span className="pn-logo-type">PASAR<span>NUSA</span><small>HASIL NUSANTARA, SATU PASAR</small></span></Link>
           <p>Mempertemukan komoditas lokal dengan peluang pasar yang lebih luas.</p>
-          <div className="pn-footer-links"><Link href="/katalog">Katalog</Link><Link href="/seller">Untuk penjual</Link><Link href="/pesanan">Pesanan</Link><Link href="/masuk">Akun saya</Link></div>
+          <div className="pn-footer-links"><Link href="/katalog">Katalog</Link><Link href="/seller">Untuk penjual</Link><Link href="/studio">Studio produk</Link><Link href="/pesanan">Pesanan</Link><Link href="/masuk">Akun saya</Link></div>
         </div>
         <div className="pn-wrap pn-footer-bottom"><span>© {new Date().getFullYear()} Pasar Nusa</span><span>Dibangun untuk tumbuh bersama pelaku usaha Indonesia.</span></div>
       </footer>

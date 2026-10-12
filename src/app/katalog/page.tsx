@@ -137,7 +137,7 @@ export default function CatalogPage() {
       <div className="pn-wrap pn-main-nav-inner">
         <Link className="pn-nav-all" href="/katalog">☷ <span>Jelajahi pasar</span></Link>
         {navCategories.map(item => <Link key={item.title} href={"/katalog?q=" + encodeURIComponent(item.query)}>{item.title}</Link>)}
-        <Link className="pn-nav-seller" href="/seller">Untuk penjual <span>↗</span></Link>
+        <Link href="/studio">Studio produk <span>✳</span></Link><Link className="pn-nav-seller" href="/seller">Untuk penjual <span>↗</span></Link>
       </div>
     </nav>
     <section className="catalog-hero"><span className="eyebrow">JELAJAHI PASAR</span><h1>Temukan produk<br/><em>dari pedagang lokal.</em></h1><p>Katalog menampilkan produk aktif dari toko yang telah disetujui.</p></section>

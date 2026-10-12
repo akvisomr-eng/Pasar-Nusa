@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /Pasar-Nusa/admin/
+Disallow: /Pasar-Nusa/masuk/
+Disallow: /Pasar-Nusa/pesanan/
+Disallow: /Pasar-Nusa/keranjang/
+
+Sitemap: https://akvisomr-eng.github.io/Pasar-Nusa/sitemap.xml
