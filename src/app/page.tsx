@@ -17,7 +17,7 @@ export default function HomePage() {
       <div className="pn-topline">
         <div className="pn-wrap pn-topline-inner">
           <span>Pasar digital komoditas Indonesia</span>
-          <span className="pn-topline-right">Dukung petani, nelayan & UMKM lokal <i>✳</i> <Link href="/seller">Mulai berjualan gratis ↗</Link></span>
+          <span className="pn-topline-right">Dukung petani, nelayan & UMKM lokal <i>✳</i> <Link href="/masuk?mode=signup&role=pedagang">Daftar pedagang gratis ↗</Link></span>
         </div>
       </div>
 
@@ -54,7 +54,7 @@ export default function HomePage() {
               <p>Temukan komoditas pertanian, perkebunan, perikanan, dan produk UMKM langsung dari pelaku usaha lokal.</p>
               <div className="pn-hero-buttons">
                 <Link className="pn-btn-primary" href="/katalog">Jelajahi produk <span>→</span></Link>
-                <Link className="pn-text-link" href="/seller">Punya produk untuk dijual? ↗</Link>
+                <Link className="pn-text-link" href="/masuk?mode=signup&role=pedagang">Daftar sebagai pedagang ↗</Link>
               </div>
               <div className="pn-hero-trust"><span>✓ Harga dan satuan jelas</span><span>✓ Mendukung usaha lokal</span></div>
             </div>
@@ -91,7 +91,7 @@ export default function HomePage() {
         <section className="pn-seller-band">
           <div className="pn-seller-symbol">✳</div>
           <div className="pn-seller-copy"><span className="pn-section-kicker">UNTUK PETANI · NELAYAN · UMKM</span><h2>Produk Anda punya tempat di sini.</h2><p>Buka toko, tampilkan katalog, kelola stok dan pesanan dalam satu tempat.</p></div>
-          <Link className="pn-btn-primary" href="/seller">Mulai berjualan <span>→</span></Link>
+          <Link className="pn-btn-primary" href="/masuk?mode=signup&role=pedagang">Daftar pedagang <span>→</span></Link>
         </section>
       </div>
 
