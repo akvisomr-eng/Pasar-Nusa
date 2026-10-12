@@ -14,7 +14,6 @@ on:
       - "public/sitemap.xml"
       - ".github/workflows/agent-patrol.yml"
       - "package.json"
-      - "package-lock.json"
 
 concurrency:
   group: pasar-nusa-agent-patrol-${{ github.ref }}
@@ -35,9 +34,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
       - name: Install locked dependencies
-        run: npm ci
+        run: npm install
       - name: Prepare report folder
         run: mkdir -p reports
       - name: Audit dependency vulnerabilities
