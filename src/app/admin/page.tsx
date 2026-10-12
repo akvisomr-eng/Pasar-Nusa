@@ -4,21 +4,25 @@ import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 type Store={id:string;name:string;slug:string;description:string;status:string;owner_id:string};
 type Product={id:string;name:string;description:string;price_idr:number|string;status:string;store_id:string;stores:{name:string;status:string}|null};
+type AdminOrderItem={id:string;product_name_snapshot:string;quantity:number;unit_price_idr:number|string;status:string;store_id:string;orders:{id:string;buyer_id:string;status:string;created_at:string}|null;stores:{name:string}|null};
+type AdminInventory={product_id:string;on_hand:number;reserved:number;products:{store_id:string}|null};
 const rupiah=(v:number|string)=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(Number(v));
 export default function AdminPage(){
- const [loading,setLoading]=useState(true),[allowed,setAllowed]=useState(false),[stores,setStores]=useState<Store[]>([]),[products,setProducts]=useState<Product[]>([]),[message,setMessage]=useState(""),[busy,setBusy]=useState(false),[storeSearch,setStoreSearch]=useState(""),[productSearch,setProductSearch]=useState("");
+ const [loading,setLoading]=useState(true),[allowed,setAllowed]=useState(false),[stores,setStores]=useState<Store[]>([]),[products,setProducts]=useState<Product[]>([]),[orderItems,setOrderItems]=useState<AdminOrderItem[]>([]),[inventoryRows,setInventoryRows]=useState<AdminInventory[]>([]),[message,setMessage]=useState(""),[busy,setBusy]=useState(false),[storeSearch,setStoreSearch]=useState(""),[productSearch,setProductSearch]=useState("");
  const refresh=useCallback(async()=>{
   const supabase=createClient();if(!supabase){setMessage("Supabase belum dikonfigurasi.");setLoading(false);return;}
   const {data:userData}=await supabase.auth.getUser();if(!userData.user){setMessage("Masuk dengan akun administrator.");setLoading(false);return;}
   const {data:profile}=await supabase.from("profiles").select("role").eq("id",userData.user.id).maybeSingle();
   if(profile?.role!=="platform_admin"){setAllowed(false);setMessage("Akun ini belum memiliki peran administrator platform.");setLoading(false);return;}
   setAllowed(true);
-  const [{data:storeRows,error:storeError},{data:productRows,error:productError}]=await Promise.all([
+  const [{data:storeRows,error:storeError},{data:productRows,error:productError},{data:orderRows},{data:inventoryData}]=await Promise.all([
    supabase.from("stores").select("id,name,slug,description,status,owner_id").in("status",["pending","active","paused","rejected"]).order("created_at",{ascending:false}),
-   supabase.from("products").select("id,name,description,price_idr,status,store_id,stores(name,status)").in("status",["draft","active","paused","archived"]).order("created_at",{ascending:false})
+   supabase.from("products").select("id,name,description,price_idr,status,store_id,stores(name,status)").in("status",["draft","active","paused","archived"]).order("created_at",{ascending:false}),
+   supabase.from("order_items").select("id,product_name_snapshot,quantity,unit_price_idr,status,store_id,orders!inner(id,buyer_id,status,created_at),stores(name)").order("created_at",{ascending:false}).limit(500),
+   supabase.from("inventory").select("product_id,on_hand,reserved,products!inner(store_id)").limit(1000)
   ]);
   if(storeError||productError)setMessage("Sebagian data dashboard gagal dimuat. Coba muat ulang.");
-  setStores((storeRows??[]) as Store[]);setProducts((productRows??[]) as unknown as Product[]);setLoading(false);
+  setStores((storeRows??[]) as Store[]);setProducts((productRows??[]) as unknown as Product[]);setOrderItems((orderRows??[]) as unknown as AdminOrderItem[]);setInventoryRows((inventoryData??[]) as unknown as AdminInventory[]);setLoading(false);
  },[]);
  useEffect(()=>{void refresh();},[refresh]);
  async function moderate(kind:"store"|"product",id:string,status:string){
@@ -42,7 +46,18 @@ export default function AdminPage(){
      <article className="admin-metric metric-attention"><span className="metric-icon">◈</span><span className="metric-label">Produk menunggu</span><strong>{pendingProducts.length}</strong><small>Produk draft dalam antrean pemeriksaan</small></article>
      <article className="admin-metric"><span className="metric-icon">▤</span><span className="metric-label">Produk terdaftar</span><strong>{products.length}</strong><small>{products.filter(p=>p.status==="active").length} aktif · {products.filter(p=>p.status==="paused").length} dijeda</small></article>
     </div>
-    <div className="admin-quicklinks"><Link href="/katalog"><span>↗</span><div><strong>Periksa katalog publik</strong><small>Pastikan produk aktif tampil dengan benar</small></div><b>→</b></Link><Link href="/seller"><span>⌂</span><div><strong>Ruang operasional penjual</strong><small>Alur toko, produk, stok, dan pesanan</small></div><b>→</b></Link><Link href="/pesanan"><span>▣</span><div><strong>Halaman pesanan</strong><small>Masuk ke tampilan pesanan pembeli</small></div><b>→</b></Link></div>
+    <section className="admin-erp-overview" id="operasional">
+    <div className="admin-section-heading"><div><span className="eyebrow">ERP · CRM · PERSEDIAAN</span><h2>Operasional lintas toko</h2><p>Ringkasan berdasarkan transaksi dan stok yang tersimpan di Supabase.</p></div></div>
+    <div className="admin-metrics">
+     <article className="admin-metric"><span className="metric-icon">▤</span><span className="metric-label">Item pesanan</span><strong>{orderItems.length}</strong><small>Data item yang dapat diakses admin</small></article>
+     <article className="admin-metric"><span className="metric-icon">♙</span><span className="metric-label">Pembeli teridentifikasi</span><strong>{new Set(orderItems.map(item=>item.orders?.buyer_id).filter(Boolean)).size}</strong><small>CRM awal berbasis riwayat order</small></article>
+     <article className="admin-metric"><span className="metric-icon">▦</span><span className="metric-label">Unit stok fisik</span><strong>{inventoryRows.reduce((sum,row)=>sum+Number(row.on_hand||0),0)}</strong><small>Di seluruh produk yang tercatat</small></article>
+     <article className="admin-metric"><span className="metric-icon">◷</span><span className="metric-label">Perlu konfirmasi</span><strong>{orderItems.filter(item=>item.status==="pending_seller").length}</strong><small>Item menunggu keputusan penjual</small></article>
+    </div>
+    <div className="admin-accounting-note"><strong>Laporan penjualan bukan laporan kas.</strong><p>Nilai item pesanan selesai: <b>{rupiah(orderItems.filter(item=>item.status==="fulfilled").reduce((sum,item)=>sum+Number(item.unit_price_idr)*item.quantity,0))}</b>. Pembayaran daring, jurnal akuntansi, biaya, pajak, dan rekonsiliasi belum aktif; angka ini tidak boleh dianggap sebagai uang yang sudah diterima.</p></div>
+    <div className="admin-module-links"><a href="#toko">Moderasi penjual <span>→</span></a><a href="#produk">Moderasi katalog <span>→</span></a><Link href="/seller">Gudang & CRM penjual <span>→</span></Link></div>
+   </section>
+   <div className="admin-quicklinks"><Link href="/katalog"><span>↗</span><div><strong>Periksa katalog publik</strong><small>Pastikan produk aktif tampil dengan benar</small></div><b>→</b></Link><Link href="/seller"><span>⌂</span><div><strong>Ruang operasional penjual</strong><small>Alur toko, produk, stok, dan pesanan</small></div><b>→</b></Link><Link href="/pesanan"><span>▣</span><div><strong>Halaman pesanan</strong><small>Masuk ke tampilan pesanan pembeli</small></div><b>→</b></Link></div>
    </section>
    <section className="admin-review-grid">
     <div className="seller-list-card admin-review-card" id="toko"><div className="admin-card-heading"><div><span className="eyebrow">ONBOARDING PENJUAL</span><h2>Tinjauan toko <span>{pendingStores.length}</span></h2></div><span className="admin-card-symbol">⌂</span></div><label className="admin-search"><span>⌕</span><input value={storeSearch} onChange={e=>setStoreSearch(e.target.value)} placeholder="Cari nama toko atau slug..." aria-label="Cari toko"/></label>
