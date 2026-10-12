@@ -121,6 +121,27 @@ jobs:
           fi
           echo "Verified catalog route and checked homepage/catalog for localhost links."
 
+          STUDIO_URL="${SITE_URL%/}/studio/"
+          if ! curl --fail --silent --show-error --location --max-time 30 "$STUDIO_URL" -o /tmp/pasar-nusa-studio.html; then
+            echo "::error::Product Studio route is not reachable: $STUDIO_URL"
+            exit 1
+          fi
+          grep -q 'data-build="pasar-nusa-product-studio-v1"' /tmp/pasar-nusa-studio.html
+          grep -q 'Unduh desain 2D' /tmp/pasar-nusa-studio.html
+          if grep -Eqi 'href=["\\x27]https?://(localhost|127\\.0\\.0\\.1)(:[0-9]+)?' /tmp/pasar-nusa-studio.html; then
+            echo "::error::Published Studio contains a localhost link."
+            exit 1
+          fi
+          echo "Verified the published Product Studio route and 2D export UI."
+
+          ROBOTS_URL="${SITE_URL%/}/robots.txt"
+          SITEMAP_URL="${SITE_URL%/}/sitemap.xml"
+          curl --fail --silent --show-error --location --max-time 30 "$ROBOTS_URL" -o /tmp/pasar-nusa-robots.txt
+          curl --fail --silent --show-error --location --max-time 30 "$SITEMAP_URL" -o /tmp/pasar-nusa-sitemap.xml
+          grep -q 'Sitemap: https://akvisomr-eng.github.io/Pasar-Nusa/sitemap.xml' /tmp/pasar-nusa-robots.txt
+          grep -q 'https://akvisomr-eng.github.io/Pasar-Nusa/studio/' /tmp/pasar-nusa-sitemap.xml
+          echo "Verified published robots.txt and sitemap.xml."
+
           FAVICON_URL="${SITE_URL%/}/favicon.svg"
           attempt=1
           while [ "$attempt" -le 12 ]; do
