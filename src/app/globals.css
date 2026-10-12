@@ -657,3 +657,50 @@ button,input,select,textarea{font-family:inherit}
 .catalog-page .catalog-state{border-color:#cbd7c7!important;border-radius:12px!important;background:#fff!important}
 .catalog-page>footer{border-color:var(--pn-border)!important;background:#fff!important}
 @media(max-width:650px){.catalog-page .storefront-promo>span:first-child{display:none!important}.catalog-page .storefront-promo>span:nth-child(2){display:inline!important}.catalog-page .store-header{background:var(--pn-cream)!important}.catalog-page .catalog-hero{border-radius:12px!important}}
+
+
+
+/* Catalog route uses the same shared shell and visual rhythm as the homepage. */
+.pn-market.catalog-page{min-height:100vh;background:var(--pn-cream)!important;color:var(--pn-ink)!important}
+.pn-market.catalog-page .catalog-hero{position:relative;width:min(1240px,calc(100% - 64px));margin:28px auto 0;padding:36px 44px 34px;border:1px solid #e2e9d9;border-radius:16px!important;background:linear-gradient(112deg,#edf2e5 0%,#f2f3e9 54%,#e3ead6 100%)!important;overflow:hidden}
+.pn-market.catalog-page .catalog-hero:after{content:"";position:absolute;right:7%;top:50%;width:150px;height:150px;transform:translateY(-50%);border-radius:50%;background:#ffffff60;box-shadow:0 0 0 15px #ffffff2a!important;pointer-events:none}
+.pn-market.catalog-page .catalog-hero .eyebrow{position:relative;z-index:1;color:var(--pn-leaf)!important}
+.pn-market.catalog-page .catalog-hero h1{position:relative;z-index:1;margin:13px 0 10px;font-size:clamp(32px,3.4vw,44px);letter-spacing:-1.8px;color:var(--pn-forest)!important}
+.pn-market.catalog-page .catalog-hero h1 em{color:#6a8d4f!important}
+.pn-market.catalog-page .catalog-hero p{position:relative;z-index:1;max-width:550px;margin:0;color:var(--pn-muted)!important;font-size:12px}
+.pn-market.catalog-page .catalog-content{width:min(1240px,calc(100% - 64px));margin:0 auto;padding:38px 0 64px}
+.pn-market.catalog-page .catalog-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:0;margin-bottom:15px}
+.pn-market.catalog-page .catalog-search-field{display:flex;align-items:center;gap:10px;flex:1;min-width:0;max-width:650px;min-height:44px;padding:0 13px;border:1px solid var(--pn-border)!important;border-radius:9px!important;background:#fff!important;color:var(--pn-muted)!important}
+.pn-market.catalog-page .catalog-search-field>span{font-size:22px;color:#819187}
+.pn-market.catalog-page .catalog-search-field input{width:100%;min-width:0;border:0;outline:0;background:transparent;font:12px 'DM Sans',sans-serif;color:var(--pn-ink)!important}
+.pn-market.catalog-page .catalog-sort{display:flex;align-items:center;gap:10px;min-height:44px;padding:0 12px;border:1px solid var(--pn-border)!important;border-radius:9px!important;background:#fff!important;color:var(--pn-muted)!important;font-size:11px}
+.pn-market.catalog-page .catalog-sort select{max-width:160px;border:0;outline:0;background:transparent;font:11px 'DM Sans',sans-serif;color:var(--pn-ink)!important}
+.pn-market.catalog-page .catalog-category-filters{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 28px;padding:0}
+.pn-market.catalog-page .category-filter{min-height:34px;padding:0 13px;border:1px solid #dce5d7!important;border-radius:999px!important;background:#fff!important;color:#506257!important;font:600 10px 'DM Sans',sans-serif;cursor:pointer}
+.pn-market.catalog-page .category-filter.active{background:var(--pn-forest)!important;border-color:var(--pn-forest)!important;color:#fff!important}
+.pn-market.catalog-page .catalog-heading{display:flex;align-items:center;justify-content:space-between;gap:15px;margin:0 0 18px;padding:0 0 14px;border-bottom:1px solid var(--pn-border)!important}
+.pn-market.catalog-page .catalog-heading h2{margin:0;font:800 23px Manrope,sans-serif;letter-spacing:-.8px;color:var(--pn-forest)!important}
+.pn-market.catalog-page .catalog-heading>span{font-size:11px;color:var(--pn-muted)!important}
+.pn-market.catalog-page .product-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.pn-market.catalog-page .product-card{overflow:hidden;border:1px solid var(--pn-border)!important;border-radius:12px!important;background:#fff;transition:transform .18s,box-shadow .18s}
+.pn-market.catalog-page .product-card:hover{transform:translateY(-3px);box-shadow:0 12px 26px #1b38200d}
+.pn-market.catalog-page .product-visual{position:relative;display:grid;place-items:center;min-height:155px;background:radial-gradient(circle at 50% 45%,#fffdf5 0,#f0f4e4 53%,#e4ecd5 100%)!important}
+.pn-market.catalog-page .product-visual-mark{display:grid;place-items:center;width:74px;height:74px;border-radius:50%;background:#ffffffc9;box-shadow:0 8px 22px #233d2510;font-size:37px}
+.pn-market.catalog-page .product-category-pill{position:absolute;left:12px;top:12px;padding:5px 8px;border:1px solid #e0e8d8;border-radius:5px;background:#ffffffd9;color:var(--pn-leaf);font-size:8px;font-weight:800}
+.pn-market.catalog-page .product-info{padding:15px}
+.pn-market.catalog-page .product-store{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--pn-leaf);font-size:9px;font-weight:800;letter-spacing:.4px}
+.pn-market.catalog-page .product-info h3{margin:9px 0;font:700 13px/1.4 Manrope,sans-serif;color:var(--pn-forest)!important}
+.pn-market.catalog-page .product-brand,.pn-market.catalog-page .product-description{font-size:10px;line-height:1.6;color:var(--pn-muted)}
+.pn-market.catalog-page .product-description{display:-webkit-box;overflow:hidden;-webkit-line-clamp:2;-webkit-box-orient:vertical;min-height:32px}
+.pn-market.catalog-page .product-price-row{margin-top:14px}
+.pn-market.catalog-page .product-price-row strong{font:800 14px Manrope,sans-serif;color:var(--pn-forest)}
+.pn-market.catalog-page .product-price-row small{font:500 10px 'DM Sans',sans-serif;color:var(--pn-muted)}
+.pn-market.catalog-page .add-cart{width:100%;min-height:37px;margin-top:13px;border:1px solid var(--pn-forest)!important;border-radius:7px!important;background:var(--pn-forest)!important;color:#fff!important;font:700 10px 'DM Sans',sans-serif;cursor:pointer}
+.pn-market.catalog-page .add-cart:hover{background:#245642!important}
+.pn-market.catalog-page .catalog-state{min-height:190px;padding:28px;border:1px dashed #cbd7c7!important;border-radius:12px!important;background:#fff!important}
+.pn-market.catalog-page .catalog-state strong{color:var(--pn-forest)!important}
+.pn-market.catalog-page .catalog-state p{color:var(--pn-muted)}
+.pn-market.catalog-page .cart-feedback{padding:12px 15px;border:1px solid #d5e5ca;border-radius:8px;background:#f0f6e8;color:var(--pn-forest)}
+.pn-market.catalog-page .pn-footer{margin-top:0}
+@media(max-width:1000px){.pn-market.catalog-page .product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.pn-market.catalog-page .catalog-hero:after{right:4%;width:120px;height:120px}}
+@media(max-width:650px){.pn-market.catalog-page .catalog-hero{width:calc(100% - 32px);margin-top:16px;padding:26px 22px;border-radius:14px!important}.pn-market.catalog-page .catalog-hero:after{right:-25px;width:95px;height:95px}.pn-market.catalog-page .catalog-hero h1{font-size:31px;letter-spacing:-1.3px}.pn-market.catalog-page .catalog-content{width:calc(100% - 32px);padding:27px 0 44px}.pn-market.catalog-page .catalog-toolbar{align-items:stretch;flex-direction:column}.pn-market.catalog-page .catalog-search-field{max-width:none}.pn-market.catalog-page .catalog-sort{justify-content:space-between}.pn-market.catalog-page .catalog-sort select{max-width:none}.pn-market.catalog-page .catalog-category-filters{gap:7px;margin-bottom:23px}.pn-market.catalog-page .category-filter{padding:0 11px;font-size:9px}.pn-market.catalog-page .catalog-heading h2{font-size:19px}.pn-market.catalog-page .product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.pn-market.catalog-page .product-visual{min-height:110px}.pn-market.catalog-page .product-visual-mark{width:58px;height:58px;font-size:29px}.pn-market.catalog-page .product-info{padding:10px}.pn-market.catalog-page .product-info h3{font-size:11px}.pn-market.catalog-page .product-description{font-size:9px}.pn-market.catalog-page .product-price-row strong{font-size:12px}.pn-market.catalog-page .add-cart{font-size:9px}.pn-market.catalog-page .pn-footer-main{gap:14px}}
