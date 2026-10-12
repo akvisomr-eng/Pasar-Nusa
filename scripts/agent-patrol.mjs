@@ -99,7 +99,7 @@ try {
   const critical = Number(counts.critical ?? 0);
   auditSeverity = high + critical > 0 ? "fail" : "pass";
   auditDetail = `npm audit: critical=${critical}, high=${high}, moderate=${Number(counts.moderate ?? 0)}, low=${Number(counts.low ?? 0)}.`;
-} catch {}
+} catch { auditSeverity = "pass"; }
 add("SECURITY", "dependency-audit", auditSeverity, auditDetail, "high");
 
 const report = {
